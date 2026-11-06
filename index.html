@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Notre semaine</title>
+<meta name="theme-color" content="#1f4e79"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E🎄%3C/text%3E%3C/svg%3E"><title>Notre semaine</title>
 <style>
-:root{--bg:#faf6f0;--card:#fff;--ink:#2a2622;--mut:#7a7268;--line:#e8e0d5;--acc:#d9622b;--acc2:#fbe5d8;--ok:#2f8a57;--bad:#c0392b}
-@media(prefers-color-scheme:dark){:root{--bg:#1c1a18;--card:#262320;--ink:#f1ebe3;--mut:#a79d90;--line:#3a3530;--acc:#f08a55;--acc2:#3b2a20;--ok:#58c185;--bad:#ff7a6b}}
-*{box-sizing:border-box}html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top,0) 0 90px}
+:root{--bg:#f5f6f8;--card:#fff;--ink:#1f2933;--mut:#6b7785;--line:#e3e7ec;--acc:#1f4e79;--acc2:#e6eef6;--on:#fff;--ok:#2a7d4f;--bad:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#121820;--card:#1b232d;--ink:#e8edf2;--mut:#9aa7b5;--line:#2c3744;--acc:#6aa9e0;--acc2:#243447;--on:#0e1722;--ok:#5fcf8f;--bad:#ff7b6e}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top,0) 0 84px;touch-action:manipulation}
 main{max-width:860px;margin:0 auto;padding:12px}
-header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0 10px}
-h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 8px}.sub{color:var(--mut);font-size:13px}
-.st{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--acc2);white-space:nowrap}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:0 0 10px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0 12px}
+h1{font-size:22px;margin:0}h2{font-size:16px;margin:0 0 8px}.sub{color:var(--mut);font-size:13px}
+.st{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--acc2);color:var(--acc);white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin:0 0 8px}
 .strip{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
-.strip button{flex:0 0 auto;min-width:56px;padding:8px 6px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
-.strip b{display:block;font-size:17px}.strip small{display:block;color:var(--mut);font-size:11px}
-.strip .on{background:var(--acc);border-color:var(--acc);color:#fff}.strip .on small{color:#fff}
-input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;max-width:100%}
-input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc)}
-.b{font:inherit;border:0;border-radius:10px;padding:9px 14px;background:var(--acc);color:#fff;cursor:pointer}
-.g{font:inherit;border:1px solid var(--line);border-radius:10px;padding:7px 12px;background:transparent;color:var(--ink);cursor:pointer}
-.g.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.x{border:0;background:none;color:var(--mut);font-size:17px;cursor:pointer;padding:4px 8px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1 1 140px}
+.strip button{flex:0 0 auto;min-width:56px;padding:7px 6px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+.strip b{display:block;font-size:17px}.strip small{display:block;color:var(--mut);font-size:11px;text-transform:capitalize}
+.strip .on{background:var(--acc);border-color:var(--acc);color:var(--on)}.strip .on small{color:var(--on)}
+input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 9px;min-width:0;max-width:100%}
+@media(pointer:coarse){input,select,textarea{font-size:16px}}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);border-color:var(--acc)}
+input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);flex:none}
+.b{font:inherit;font-size:15px;border:0;border-radius:8px;padding:8px 14px;background:var(--acc);color:var(--on);cursor:pointer}
+.g{font:inherit;font-size:15px;border:1px solid var(--line);border-radius:8px;padding:7px 12px;background:transparent;color:var(--ink);cursor:pointer}
+.g.on{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.x{border:0;background:none;color:var(--mut);font-size:17px;cursor:pointer;padding:6px 8px}
+.lnk{font-size:13px;color:var(--acc);text-decoration:none;white-space:nowrap}
+.tg{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;border-top:1px solid var(--line);margin-top:10px;padding:10px 0 2px;font:inherit;font-size:15px;color:var(--ink);cursor:pointer;text-align:left}
+.lk0{display:block;background:none;border:0;color:var(--acc);font:inherit;font-size:13px;margin-top:6px;padding:0;cursor:pointer}
+.pn{padding-top:6px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1 1 110px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{background:var(--acc2);border-radius:99px;padding:3px 10px;font-size:14px;cursor:default}.chip small{color:var(--mut);margin-left:4px}
-.chip.t{cursor:pointer;opacity:.45}.chip.t.on{opacity:1;outline:2px solid var(--acc)}
+.chip{background:var(--acc2);color:var(--acc);border-radius:99px;padding:3px 10px;font-size:14px}.chip small{color:var(--mut);margin-left:4px}
+.chip.t{cursor:pointer;opacity:.5}.chip.t.on{opacity:1;outline:2px solid var(--acc)}
 .meal{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}.meal:first-of-type{border-top:0}
-.meal .t{width:46px;color:var(--mut);font-size:13px}.meal .n{flex:1}.meal .c{font-size:13px;color:var(--mut)}
+.meal .t{width:46px;color:var(--mut);font-size:13px}.meal .n{flex:1}.meal .c{font-size:13px;color:var(--mut);white-space:nowrap}
 .empty{color:var(--mut);font-style:italic}
 label.f{display:block;font-size:13px;color:var(--mut);margin:6px 0 2px}
-.vote.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.vote.on{background:var(--acc);color:var(--on);border-color:var(--acc)}
 .item{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:7px 0;border-top:1px solid var(--line)}
 .item .nm{flex:1 1 120px}.item.done .nm{text-decoration:line-through;color:var(--mut)}
-.item input[type=number]{width:74px}.item select{max-width:110px}
-.gw{overflow-x:auto;margin-bottom:10px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.item.me{background:var(--acc2);border-radius:8px;padding-left:6px}
+.mine{margin-top:10px;padding:12px;border-radius:10px;background:var(--acc2);color:var(--acc);font-size:17px}
+.rm{padding:8px 0;border-top:1px solid var(--line)}.rm:first-of-type{border-top:0}
+.gw{overflow-x:auto;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
 .grid{display:grid;min-width:max-content;width:100%;font-size:13px}
-.grid>div{border-bottom:1px solid var(--line);padding:6px 4px;display:flex;align-items:center;justify-content:center;min-height:38px}
-.gh{flex-direction:column;color:var(--mut);font-size:11px}.gh b{font-size:15px;color:var(--ink)}
+.grid>div{border-bottom:1px solid var(--line);padding:6px 4px;display:flex;align-items:center;justify-content:center;min-height:40px}
+.gh{flex-direction:column;color:var(--mut);font-size:11px;text-transform:capitalize}.gh b{font-size:15px;color:var(--ink)}
 .gn{position:sticky;left:0;background:var(--card);justify-content:flex-start!important;font-weight:600;cursor:pointer;z-index:1;padding-left:8px!important}
 .gn.on{color:var(--acc)}.cell{cursor:pointer;font-size:11px;font-weight:600;color:#fff;text-shadow:0 0 2px #0006}
 .gr{padding:2px!important}.gr input{width:100%;border:0;background:transparent;padding:4px}
 .good{color:var(--ok)}.bad{color:var(--bad)}
 table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;text-align:right;border-top:1px solid var(--line)}td:first-child,th:first-child{text-align:left}
-nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px));z-index:5}
-nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:11px;padding:6px 0;cursor:pointer}
-nav i{display:block;font-style:normal;font-size:20px}nav .on{color:var(--acc);font-weight:600}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding:4px 2px calc(4px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:10px;padding:4px 0;cursor:pointer}
+nav i{display:block;font-style:normal;font-size:21px;line-height:1.2}nav .on{color:var(--acc);font-weight:600}
 #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;display:none;z-index:9}
 </style></head><body>
 <main><header><div><h1 id="ttl"></h1><div class="sub" id="sub"></div></div><span class="st" id="st">…</span></header><div id="app"></div></main>
@@ -59,9 +67,9 @@ const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice
 const DEF={title:"Notre semaine",place:"",start:iso(new Date()),days:7,places:"Maison, Terrasse, Restaurant, Pique-nique",cats:"Fruits & légumes, Viandes & poissons, Frais, Épicerie, Boissons, Autre",
  meals:{m1:{n:"Petit-déj",t:"08:30"},m2:{n:"Déjeuner",t:"12:30"},m3:{n:"Goûter",t:"16:30"},m4:{n:"Apéro",t:"19:00"},m5:{n:"Dîner",t:"20:30"}}};
 let D={},Q=[],C=DEF,base="",fl=0;
-const S={tab:"home",day:0,me:"",sub:"list",mode:"idea",sel:"",fp:null,tool:"pres"};
+const S={tab:"home",day:0,me:"",sub:"list",mode:"idea",sel:"",fp:null,tool:"pres",o:{},meS:""};
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
-try{D=JSON.parse(ls("D")||"{}");Q=JSON.parse(ls("Q")||"[]")}catch(e){}S.me=ls("me")||"";
+try{D=JSON.parse(ls("D")||"{}");Q=JSON.parse(ls("Q")||"[]")}catch(e){}S.me=ls("me")||"";S.meS=ls("meS")||"";
 const L=o=>Object.entries(o||{}).map(([id,v])=>Object.assign({id},v));
 const sync=()=>{C=Object.assign({},DEF,D.cfg||{});C.meals=D.cfg&&D.cfg.mealsInit?(D.cfg.meals||{}):((D.cfg&&D.cfg.meals)||DEF.meals)};
 const persist=()=>{ls("D",JSON.stringify(D));ls("Q",JSON.stringify(Q))};
@@ -92,9 +100,12 @@ addEventListener("online",()=>{flush();poll()});addEventListener("offline",()=>n
 const strip=()=>`<div class="strip">${Array.from({length:N()},(_,i)=>`<button data-act="day" data-i="${i}" class="${i===S.day?"on":""}"><small>${esc(dl(i,{weekday:"short"}))}</small><b>${dd(i).getDate()}</b><small>${esc(dl(i,{month:"short"}))}</small></button>`).join("")}</div>`;
 const inp=(p,v,ph,x)=>`<input data-p="${p}" value="${esc(v)}" placeholder="${esc(ph||"")}" ${x||""}>`;
 const names=l=>l.map(p=>`<span class="chip">${esc(p.n||"?")}</span>`).join("");
+const lk=u=>{u=(u||"").trim();if(!u)return"";if(!/^https?:\/\//i.test(u))u="https://"+u;return/^https?:\/\/[^\s\/]+\.[^\s]+/i.test(u)?u:""};
+const lkRow=i=>`<div class="row" style="margin-top:8px"><div class="grow">${inp("ideas/"+i.id+"/link",i.link,"Lien recette ou site",'style="width:100%"')}</div>${lk(i.link)?`<a class="lnk" href="${esc(lk(i.link))}" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a>`:""}</div>`;
 const meSel=()=>`Je suis : <select data-act="me"><option value="">— choisir —</option>${PL().map(p=>`<option value="${p.id}" ${p.id===S.me?"selected":""}>${esc(p.n)}</option>`).join("")}</select>`;
-const placeOpts=v=>`<option value="">—</option>`+C.places.split(",").map(s=>s.trim()).filter(Boolean).map(s=>`<option ${s===v?"selected":""}>${esc(s)}</option>`).join("");
-const menuTxt=x=>{const i=(D.ideas||{})[x.idea];return[i&&i.title,x.text].filter(Boolean).map(esc).join(" — ")};
+const placeOpts=v=>`<option value="">📍 Lieu…</option>`+C.places.split(",").map(s=>s.trim()).filter(Boolean).map(s=>`<option ${s===v?"selected":""}>${esc(s)}</option>`).join("");
+const mIdeas=x=>[...new Set([...(x.idea?[x.idea]:[]),...Object.keys(x.ideas||{})])];
+const menuTxt=x=>[mIdeas(x).map(id=>((D.ideas||{})[id]||{}).title).filter(Boolean).join(" + "),x.text].filter(Boolean).map(esc).join(" — ");
 const slotLbl=s=>{const[d,m]=s.split("_"),mm=C.meals[m];return mm?dl(+d.slice(1),{weekday:"short",day:"numeric"})+" · "+mm.n:"?"};
 
 function vHome(){
@@ -106,28 +117,28 @@ function vHome(){
 function vPeople(){
  const n=N(),ps=PL();let g=`<div class="gw"><div class="grid" style="grid-template-columns:92px repeat(${n},minmax(42px,1fr)) 170px"><div class="gn" style="cursor:default"></div>`;
  for(let d=0;d<n;d++)g+=`<div class="gh">${esc(dl(d,{weekday:"short"}))}<b>${dd(d).getDate()}</b></div>`;g+=`<div class="gh">Remarques</div>`;
- ps.forEach((p,r)=>{const a=p.arr||0,z=p.dep==null?n-1:p.dep,h=r%2?205:18,col=`hsl(${h} 62% 48%)`,pale=`hsl(${h} 60% 70%)`;
+ ps.forEach((p,r)=>{const a=p.arr||0,z=p.dep==null?n-1:p.dep,h=r%2?165:210,col=`hsl(${h} 62% 48%)`,pale=`hsl(${h} 60% 70%)`;
   g+=`<div class="gn ${S.sel===p.id?"on":""}" data-act="sel" data-id="${p.id}">${esc(p.n)}</div>`;
   for(let d=0;d<n;d++){const c=cov(p,d),on=c>0,edge=d===a||d===z,t=!on?"":d===a&&d===z?hh(p.arrT).replace("h","–")+hh(p.depT):d===a?"▶"+hh(p.arrT):d===z?hh(p.depT)+"◀":c<1440?"◐":"";g+=`<div class="cell" data-act="cell" data-id="${p.id}" data-d="${d}" style="${on?`background:${c>=1440&&!edge?col:pale}`:""}">${t}</div>`}
   g+=`<div class="gr">${inp("people/"+p.id+"/note",p.note,"…")}</div>`});
  g+=`<div class="gn" style="cursor:default">Total</div>`;for(let d=0;d<n;d++)g+=`<div><b>${cnt(ps.filter(p=>cov(p,d)>0))}</b></div>`;g+=`<div></div></div></div>`;
  const p=P(S.sel),opts=v=>Array.from({length:n},(_,i)=>`<option value="${i}" ${i===v?"selected":""}>${esc(dl(i,{weekday:"short",day:"numeric",month:"short"}))}</option>`).join("");
  const ab=p?L(p.abs).map(x=>{const b=`people/${S.sel}/abs/${x.id}/`;return`<div class="row" style="margin-top:6px"><span class="sub">🚫 Du</span><select data-p="${b}d1" data-num="1">${opts(x.d1||0)}</select><input type="time" data-p="${b}t1" value="${esc(x.t1||"09:00")}"><span class="sub">au</span><select data-p="${b}d2" data-num="1">${opts(x.d2||0)}</select><input type="time" data-p="${b}t2" value="${esc(x.t2||"18:00")}"><button class="x" data-act="delAbs" data-id="${x.id}">🗑</button></div>`}).join(""):"";
- const ed=p?`<div class="card"><div class="row"><div class="grow">${inp("people/"+S.sel+"/n",p.n,"Prénom",'style="width:100%"')}</div><button class="x" data-act="delPerson">🗑</button></div><div class="row"><div class="grow"><label class="f">Nombre d’adultes</label><input type="number" min="1" max="20" data-p="people/${S.sel}/ad" data-num="1" value="${ad(p)}"></div></div><div class="row"><div class="grow"><label class="f">Arrivée</label><select data-p="people/${S.sel}/arr" data-num="1">${opts(p.arr||0)}</select> <input type="time" data-p="people/${S.sel}/arrT" value="${esc(p.arrT||"14:00")}"></div><div class="grow"><label class="f">Départ</label><select data-p="people/${S.sel}/dep" data-num="1">${opts(p.dep==null?n-1:p.dep)}</select> <input type="time" data-p="people/${S.sel}/depT" value="${esc(p.depT||"16:00")}"></div></div><label class="f">Absences pendant le séjour</label>${ab||'<div class="empty">Aucune</div>'}<button class="g" style="margin-top:8px" data-act="addAbs">+ Absence</button></div>`:'<div class="sub">Touche un prénom pour régler précisément les horaires et les absences.</div>';
- return`<div class="row" style="margin-bottom:10px"><div class="grow sub">${cnt(ps)} personne(s)</div><button class="b" data-act="addPerson">+ Ajouter</button></div><div class="row" style="margin-bottom:8px"><span class="sub">Toucher une case :</span><button class="g ${S.tool!=="abs"?"on":""}" data-act="tool" data-t="pres">✏️ Arrivée / départ</button><button class="g ${S.tool==="abs"?"on":""}" data-act="tool" data-t="abs">🚫 Absence</button></div>`+g+ed}
+ const ed=p?`<div class="card"><div class="row"><div class="grow">${inp("people/"+S.sel+"/n",p.n,"Prénom",'style="width:100%"')}</div><button class="x" data-act="delPerson">🗑</button></div><div class="row"><div class="grow"><label class="f">Nombre d’adultes</label><input type="number" min="1" max="20" data-p="people/${S.sel}/ad" data-num="1" value="${ad(p)}"></div><div class="grow"><label class="f">Couchage</label><select data-p="people/${S.sel}/room" style="width:100%"><option value="">—</option>${L(D.rooms).map(r=>`<option value="${r.id}" ${p.room===r.id?"selected":""}>${esc(r.n)}</option>`).join("")}</select></div></div><div class="row"><div class="grow"><label class="f">Arrivée</label><select data-p="people/${S.sel}/arr" data-num="1">${opts(p.arr||0)}</select> <input type="time" data-p="people/${S.sel}/arrT" value="${esc(p.arrT||"14:00")}"></div><div class="grow"><label class="f">Départ</label><select data-p="people/${S.sel}/dep" data-num="1">${opts(p.dep==null?n-1:p.dep)}</select> <input type="time" data-p="people/${S.sel}/depT" value="${esc(p.depT||"16:00")}"></div></div><label class="f">Absences pendant le séjour</label>${ab||'<div class="empty">Aucune</div>'}<button class="g" style="margin-top:8px" data-act="addAbs">+ Absence</button></div>`:'<div class="sub">Touche un prénom pour régler précisément les horaires et les absences.</div>';
+ return`<div class="row" style="margin-bottom:10px"><div class="grow sub">${cnt(ps)} personne(s)</div><button class="b" data-act="addPerson">+ Ajouter</button></div><div class="row" style="margin-bottom:8px"><span class="sub">Toucher une case :</span><button class="g ${S.tool!=="abs"?"on":""}" data-act="tool" data-t="pres">✏️ Arrivée / départ</button><button class="g ${S.tool==="abs"?"on":""}" data-act="tool" data-t="abs">🚫 Absence</button></div>`+g+ed+vRooms()}
 function vMenus(){
- const d=S.day,rid=L(D.ideas).filter(i=>i.type==="Repas").sort((a,b)=>Object.keys(b.v||{}).length-Object.keys(a.v||{}).length);
- return strip()+MS().map(m=>{const k="d"+d+"_"+m.id,x=(D.menu||{})[k]||{},pr=at(d,m.t),b="menu/"+k+"/";
- return`<div class="card"><h2>${esc(m.n)} <span class="sub">${esc(m.t)}</span></h2>
- <div class="chips" style="margin-bottom:6px">${names(pr)||'<span class="empty">Personne</span>'} <span class="sub">(${cnt(pr)})</span></div>
- <label class="f">📍 Lieu</label><select data-p="${b}place" style="width:100%">${placeOpts(x.place)}</select>
- <label class="f">Idée repas (issue des votes)</label><select data-p="${b}idea" style="width:100%"><option value="">— aucune —</option>${rid.map(i=>`<option value="${i.id}" ${i.id===x.idea?"selected":""}>${esc(i.title)} (👍 ${Object.keys(i.v||{}).length})</option>`).join("")}</select>
- <label class="f">Précisions / menu libre</label><textarea data-p="${b}text" rows="2" style="width:100%">${esc(x.text)}</textarea></div>`}).join("")}
+ const d=S.day,rid=L(D.ideas).sort((a,b)=>Object.keys(b.v||{}).length-Object.keys(a.v||{}).length);
+ return strip()+MS().map(m=>{const k="d"+d+"_"+m.id,x=(D.menu||{})[k]||{},pr=at(d,m.t),b="menu/"+k+"/",sel=mIdeas(x).filter(id=>(D.ideas||{})[id]),free=rid.filter(i=>!sel.includes(i.id));
+ return`<div class="card"><div class="row" style="margin-bottom:6px"><b class="grow">${esc(m.n)} <span class="sub">${esc(m.t)}</span></b><span class="sub">👥 ${cnt(pr)}</span></div>
+ <div class="chips" style="margin-bottom:8px">${names(pr)||'<span class="empty">Personne</span>'}</div>
+ ${sel.map(id=>{const i=D.ideas[id];return`<div class="row" style="margin-bottom:4px"><span class="grow">🍽️ <b>${esc(i.title)}</b>${lk(i.link)?` <a class="lnk" href="${esc(lk(i.link))}" target="_blank" rel="noopener noreferrer">🔗 recette</a>`:""}</span><button class="x" data-act="delMI" data-k="${k}" data-id="${id}">✕</button></div>`}).join("")}
+ <div class="row"><select class="grow" data-p="${b}place">${placeOpts(x.place)}</select><select class="grow" data-act="addMI" data-k="${k}"><option value="">➕ Ajouter une recette…</option>${free.map(i=>`<option value="${i.id}">${esc(i.title)} (👍 ${Object.keys(i.v||{}).length})</option>`).join("")}</select></div>
+ <textarea data-p="${b}text" rows="1" placeholder="Précisions…" style="width:100%;margin-top:6px">${esc(x.text)}</textarea></div>`}).join("")}
 function vIdeas(){
  const l=L(D.ideas).sort((a,b)=>Object.keys(b.v||{}).length-Object.keys(a.v||{}).length);
- return`<div class="card"><h2>Proposer une idée</h2><div class="row"><div class="grow"><input id="addIdea" placeholder="ex. Raclette" style="width:100%"></div><select id="addIdeaT"><option>Repas</option><option>Activité</option><option>Autre</option></select><button class="b" data-act="addIdea">Ajouter</button></div><div class="sub" style="margin-top:8px">${meSel()}</div></div>`+l.map(i=>{const on=(i.v||{})[S.me],ing=L(i.ing);
- const ig=i.type==="Repas"?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px"><div class="sub">Ingrédients</div>${ing.map(g=>`<div class="item"><span class="nm">${esc(g.n)}${g.q?` <small class="sub">× ${esc(g.q)}</small>`:""}${(D.shop||{})["i_"+g.id]?` <small class="sub">· ✓ dans la liste</small>`:""}</span><button class="x" data-act="delIng" data-id="${i.id}" data-ing="${g.id}">🗑</button></div>`).join("")}<div class="row" style="margin-top:6px"><div class="grow"><input id="in${i.id}" placeholder="Ingrédient" style="width:100%"></div><input id="iq${i.id}" placeholder="Qté" style="width:70px"><button class="g" data-act="addIng" data-id="${i.id}">+</button></div>${ing.length?`<button class="b" style="margin-top:8px" data-act="toCart" data-id="${i.id}">🛒 Ajouter à la liste de courses</button>`:""}</div>`:"";
- return`<div class="card"><div class="row"><div class="grow"><b>${esc(i.title)}</b><div class="sub">${esc(i.type)}${P(i.by)?" · par "+esc(P(i.by).n):""}</div></div><button class="g vote ${on?"on":""}" data-act="vote" data-id="${i.id}">👍 ${Object.keys(i.v||{}).length}</button><button class="x" data-act="delIdea" data-id="${i.id}">🗑</button></div>${ig}</div>`}).join("")}
+ return`<div class="card"><div class="row"><div class="grow"><input id="addIdea" placeholder="Nom de la recette…" style="width:100%"></div><button class="b" data-act="addIdea">Ajouter</button></div>${S.o.addL?'<input id="addIdeaL" placeholder="Lien de la recette" style="width:100%;margin-top:6px">':'<button class="lk0" data-act="tog" data-k="addL">🔗 Ajouter un lien</button>'}<div class="sub" style="margin-top:8px">${meSel()}</div></div>`+(l.map(i=>{const on=(i.v||{})[S.me],ing=L(i.ing),n=Object.keys(i.v||{}).length,u=lk(i.link),op=S.o["i"+i.id];
+ const pn=op?`<div class="pn" style="border-top:1px solid var(--line);margin-top:8px">${ing.map(g=>`<div class="item"><span class="nm">${esc(g.n)}${g.q?` <small class="sub">× ${esc(g.q)}</small>`:""}${(D.shop||{})["i_"+g.id]?` <small class="sub">· ✓ dans la liste</small>`:""}</span><button class="x" data-act="delIng" data-id="${i.id}" data-ing="${g.id}">🗑</button></div>`).join("")}<div class="row" style="margin-top:6px"><div class="grow"><input id="in${i.id}" placeholder="Ingrédient" style="width:100%"></div><input id="iq${i.id}" placeholder="Qté" style="width:64px"><button class="g" data-act="addIng" data-id="${i.id}">+</button></div>${ing.length?`<button class="b" style="margin-top:8px" data-act="toCart" data-id="${i.id}">🛒 Ajouter aux courses</button>`:""}<label class="f">Lien de la recette</label>${inp("ideas/"+i.id+"/link",i.link,"https://…",'style="width:100%"')}</div>`:"";
+ return`<div class="card"><div class="row"><div class="grow" data-act="tog" data-k="i${i.id}" style="cursor:pointer"><b>${esc(i.title)}</b> <span class="sub">${op?"▴":"▾"}</span><div class="sub">${ing.length} ingrédient(s)${P(i.by)?" · "+esc(P(i.by).n):""}${u?` · <a class="lnk" href="${esc(u)}" target="_blank" rel="noopener noreferrer">🔗 Voir la recette</a>`:""}</div></div><button class="g vote ${on?"on":""}" data-act="vote" data-id="${i.id}">👍 ${n}</button><button class="x" data-act="delIdea" data-id="${i.id}">🗑</button></div>${pn}</div>`}).join("")||'<div class="card empty">Aucune recette pour l’instant.</div>')}
 function budget(){const paid={},owe={};let tot=0;const ids=PL().map(p=>p.id);ids.forEach(i=>paid[i]=owe[i]=0);
  L(D.shop).filter(i=>i.exp&&+i.price>0&&paid[i.payer]!=null).forEach(i=>{const pr=+i.price;tot+=pr;let ps=Object.keys(i.parts||{}).filter(x=>paid[x]!=null);if(!ps.length)ps=ids;const W=ps.reduce((s,x)=>s+ad(P(x)),0);paid[i.payer]+=pr;ps.forEach(x=>owe[x]+=pr*ad(P(x))/W)});
  const bal=ids.map(id=>({id,b:paid[id]-owe[id]})),deb=bal.filter(x=>x.b<-.005).map(x=>({...x})).sort((a,b)=>a.b-b.b),cre=bal.filter(x=>x.b>.005).map(x=>({...x})).sort((a,b)=>b.b-a.b),tr=[];
@@ -143,13 +154,28 @@ function vShop(){
   <div class="card"><h2>Qui rembourse qui</h2>${B.tr.map(([a,b,m])=>`<div>${esc(P(a).n)} → ${esc(P(b).n)} : <b>${money(m)}</b></div>`).join("")||'<span class="empty">Tout est équilibré</span>'}</div>
   <div class="card"><h2>Nouvelle dépense</h2><div class="row"><div class="grow"><input id="eT" placeholder="ex. Courses Leclerc, essence…" style="width:100%"></div><input id="eA" type="number" step="0.01" placeholder="€" style="width:90px"><select id="eP">${pay}</select></div><label class="f">Partagée entre</label><div class="chips">${PL().map(p=>`<span class="chip t ${fp[p.id]?"on":""}" data-act="fp" data-id="${p.id}">${esc(p.n)}</span>`).join("")}</div><button class="b" style="margin-top:10px" data-act="addExp">Ajouter</button></div>
   <div class="card"><h2>Dépenses</h2>${ex.map(i=>`<div class="item"><span class="nm">${esc(i.name)}<div class="sub">${P(i.payer)?"payé par "+esc(P(i.payer).n):"sans payeur"} · ${cnt(Object.keys(i.parts||{}).length?Object.keys(i.parts).map(P).filter(Boolean):PL())} pers.</div></div><b>${money(+i.price)}</b><button class="x" data-act="delItem" data-id="${i.id}">🗑</button></div>`).join("")||'<span class="empty">Aucune dépense</span>'}</div>`}
- const its=L(D.shop).filter(i=>!i.exp),ideas=L(D.ideas).filter(i=>i.type==="Repas"),ik=i=>i.idea&&(D.ideas||{})[i.idea]?i.idea:"";
+ const its=L(D.shop).filter(i=>!i.exp),ideas=L(D.ideas),ik=i=>i.idea&&(D.ideas||{})[i.idea]?i.idea:"";
  const gr={};its.forEach(i=>{const k=ik(i);(gr[k]=gr[k]||[]).push(i)});
  const keys=[...ideas.map(i=>i.id),""].filter(k=>gr[k]);
- const row=i=>`<div class="item ${i.done?"done":""}"><input type="checkbox" data-p="shop/${i.id}/done" data-chk="1" ${i.done?"checked":""}><span class="nm">${esc(i.name)}${i.qty?` <small class="sub">× ${esc(i.qty)}</small>`:""}</span><button class="x" data-act="delItem" data-id="${i.id}">🗑</button></div>`;
- return tabs+`<div class="card"><h2>Ajouter un article</h2><div class="row"><div class="grow"><input id="addItem" placeholder="ex. Tomates" style="width:100%"></div><input id="addQty" placeholder="Qté" style="width:70px"></div><div class="row" style="margin-top:8px"><select id="addFor" class="grow"><option value="">Pour : Autre (pas un repas)</option>${ideas.map(i=>`<option value="${i.id}">Pour : ${esc(i.title)}</option>`).join("")}</select><button class="b" data-act="addItem">Ajouter</button></div></div>`+
- (keys.map(k=>`<div class="card"><h2>${esc(k?D.ideas[k].title:"Autre")}</h2>${gr[k].sort((a,b)=>!!a.done-!!b.done).map(row).join("")}</div>`).join("")||'<div class="card empty">La liste est vide.</div>')+(its.some(i=>i.done)?'<button class="g" data-act="clearDone">Retirer les articles cochés</button>':"")}
+ const nk=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g,"").trim().replace(/s$/,"");
+ const by={};its.filter(ik).forEach(i=>{const k=nk(i.name);(by[k]=by[k]||[]).push(i)});
+ const com={};Object.entries(by).forEach(([k,v])=>{const n=new Set(v.map(i=>i.idea)).size;if(n>1)com[k]=n});
+ const nIdeas=new Set(its.filter(ik).map(i=>i.idea)).size;
+ const commonCard=Object.keys(com).length?`<div class="card"><button class="tg" style="border:0;margin:0;padding:0" data-act="tog" data-k="sc"><b>🔁 Ingrédients communs</b><span class="sub">${Object.keys(com).length} ${S.o.sc?"▴":"▾"}</span></button>${!S.o.sc?"":`<div class="sub" style="margin:6px 0">Présents dans plusieurs recettes : à acheter une seule fois.</div>${Object.keys(com).map(k=>{const v=by[k],all=v.every(i=>i.done);return`<div class="item ${all?"done":""}"><input type="checkbox" data-act="tickGrp" data-ids="${v.map(i=>i.id).join(",")}" ${all?"checked":""}><span class="nm">${esc(v[0].name)}<div class="sub">${v.map(i=>esc(D.ideas[i.idea].title)+(i.qty?" × "+esc(i.qty):"")).join(" · ")}</div></span><span class="chip" style="font-size:12px">${com[k]===nIdeas?"toutes les recettes":com[k]+" recettes"}</span></div>`}).join("")}`}</div>`:"";
+ const row=i=>`<div class="item ${i.done?"done":""}"><input type="checkbox" data-p="shop/${i.id}/done" data-chk="1" ${i.done?"checked":""}><span class="nm">${esc(i.name)}${i.qty?` <small class="sub">× ${esc(i.qty)}</small>`:""}${ik(i)&&com[nk(i.name)]?` <span class="chip" style="font-size:11px;padding:1px 7px">🔁 commun</span>`:""}</span><button class="x" data-act="delItem" data-id="${i.id}">🗑</button></div>`;
+ return tabs+`<div class="card"><h2>Ajouter un article</h2><div class="row"><div class="grow"><input id="addItem" placeholder="ex. Tomates" style="width:100%"></div><input id="addQty" placeholder="Qté" style="width:70px"></div><div class="row" style="margin-top:8px"><select id="addFor" class="grow"><option value="">Pour : Autre (hors recette)</option>${ideas.map(i=>`<option value="${i.id}">Pour : ${esc(i.title)}</option>`).join("")}</select><button class="b" data-act="addItem">Ajouter</button></div></div>`+
+ commonCard+(keys.map(k=>`<div class="card">${(()=>{const tk=k?"s"+k:"sx",op=k?!!S.o[tk]:!S.o[tk],dn=gr[k].filter(i=>i.done).length;return`<button class="tg" style="border:0;margin:0;padding:0" data-act="tog" data-k="${tk}"><b>${k?"🍲 ":"🛒 "}${esc(k?D.ideas[k].title:"Autre")}</b><span class="sub">${dn}/${gr[k].length} ${op?"▴":"▾"}</span></button>${op?`<div style="margin-top:6px">${gr[k].sort((a,b)=>!!a.done-!!b.done).map(row).join("")}</div>`:""}`})()}</div>`).join("")||'<div class="card empty">La liste est vide.</div>')+(its.some(i=>i.done)?'<button class="g" data-act="clearDone">Retirer les articles cochés</button>':"")}
 
+function vRooms(){
+ const rs=L(D.rooms),ps=PL(),op=S.o.rooms,un=ps.filter(p=>!p.room||!(D.rooms||{})[p.room]);
+ const body=`${rs.map(r=>{const occ=ps.filter(p=>p.room===r.id),n=cnt(occ),cap=+r.cap||0;return`<div class="rm"><div class="row"><div class="grow">${inp("rooms/"+r.id+"/n",r.n,"Nom de la chambre",'style="width:100%"')}</div><input type="number" min="0" max="30" data-p="rooms/${r.id}/cap" data-num="1" value="${r.cap||""}" placeholder="Places" style="width:74px"><button class="x" data-act="delRoom" data-id="${r.id}">🗑</button></div><div class="chips" style="margin-top:6px">${names(occ)||'<span class="empty">Personne</span>'} <span class="${cap&&n>cap?"bad":"sub"}">${n}${cap?"/"+cap:""} place(s)</span></div></div>`}).join("")||'<div class="empty">Aucune chambre pour l’instant.</div>'}<button class="g" style="margin-top:8px" data-act="addRoom">+ Chambre</button>${un.length&&rs.length?`<div class="sub" style="margin-top:8px">Sans couchage : ${esc(un.map(p=>p.n).join(", "))}</div>`:""}<div class="sub" style="margin-top:6px">Pour attribuer une chambre, touche le prénom de la personne dans le tableau.</div>`;
+ return`<div class="card"><button class="tg" style="border:0;margin:0;padding:0" data-act="tog" data-k="rooms"><b>🛏️ Couchage</b><span class="sub">${rs.length} chambre(s) ${op?"▴":"▾"}</span></button>${op?`<div style="margin-top:10px">${body}</div>`:""}</div>`}
+
+function vSanta(){
+ const sp=L(D.santaP),sd=D.santaD||{},SP=id=>(D.santaP||{})[id],mine=sd[S.meS]&&SP(sd[S.meS]),op=S.o.santaP;
+ return`<div class="card"><h2>🎅 Secret Santa</h2><div class="row"><span class="sub">Je suis</span><select data-act="meS"><option value="">— choisir —</option>${sp.map(p=>`<option value="${p.id}" ${p.id===S.meS?"selected":""}>${esc(p.n)}</option>`).join("")}</select></div>${mine?`<div class="mine">🎁 Tu offres à <b>${esc(mine.n)}</b></div>`:""}</div>
+ <div class="card"><h2>Qui offre à qui</h2>${sp.map(p=>`<div class="item ${p.id===S.meS?"me":""}"><span class="nm">${esc(p.n)} →</span><select data-p="santaD/${p.id}"><option value="">—</option>${sp.filter(q=>q.id!==p.id).map(q=>`<option value="${q.id}" ${sd[p.id]===q.id?"selected":""}>${esc(q.n)}</option>`).join("")}</select></div>`).join("")||'<div class="empty">Ajoute d’abord les participants ci-dessous.</div>'}<div class="row" style="margin-top:10px"><button class="b" data-act="draw">🎲 Tirage au sort</button><button class="g" data-act="clearSanta">Effacer</button></div></div>
+ <div class="card"><button class="tg" style="border:0;margin:0;padding:0" data-act="tog" data-k="santaP"><b>👥 Participants</b><span class="sub">${sp.length} ${op?"▴":"▾"}</span></button>${op?`<div class="chips" style="margin:10px 0">${sp.map(p=>`<span class="chip">${esc(p.n)} <button class="x" style="padding:0 0 0 4px;font-size:14px" data-act="delSP" data-id="${p.id}">✕</button></span>`).join("")||'<span class="empty">Aucun</span>'}</div><div class="row"><div class="grow"><input id="addSP" placeholder="Prénom" style="width:100%"></div><button class="g" data-act="addSP">Ajouter</button></div><button class="g" style="margin-top:8px" data-act="impSP">Importer depuis Présences</button><div class="sub" style="margin-top:6px">Une personne par prénom, même en couple. L’import sépare les noms d’une ligne écrits « Marie & Paul » ou « Marie et Paul ».</div>`:""}</div>`}
 function vSet(){
   return`<div class="card"><h2>Le séjour</h2><label class="f">Titre</label>${inp("cfg/title",C.title,"",'style="width:100%"')}<label class="f">Lieu</label>${inp("cfg/place",C.place,"",'style="width:100%"')}
  <div class="row"><div class="grow"><label class="f">Premier jour</label><input type="date" data-p="cfg/start" value="${esc(C.start)}"></div><div class="grow"><label class="f">Nombre de jours (1 à 14)</label><input type="number" min="1" max="14" data-p="cfg/days" data-num="1" value="${N()}"></div></div></div>
@@ -159,8 +185,8 @@ function vSet(){
 
 function vSetup(){return`<div class="card"><h2>Première configuration (5 minutes, une seule fois)</h2><ol style="padding-left:20px;margin:0 0 10px"><li>Sur <b>console.firebase.google.com</b>, crée un projet gratuit (sans Analytics).</li><li>Menu « Build » → <b>Realtime Database</b> → « Créer une base », choisis l’Europe.</li><li>Onglet <b>Règles</b> : remplace par <code>{"rules":{".read":true,".write":true}}</code> puis « Publier ».</li><li>Copie l’adresse affichée en haut de l’onglet Données (https://….firebasedatabase.app) et colle-la ici :</li></ol><input id="dbu" placeholder="https://xxxx-default-rtdb.europe-west1.firebasedatabase.app" style="width:100%;margin-bottom:8px"><button class="b" data-act="setup">Valider</button><div class="sub" style="margin-top:8px">Tu obtiendras ensuite un lien à envoyer aux 9 autres.</div></div>`}
 
-const TABS=[["home","🏠","Accueil"],["people","👥","Présences"],["menus","🍽️","Menus"],["ideas","💡","Idées"],["shop","🛒","Courses"],["set","⚙️","Réglages"]];
-const V={home:vHome,people:vPeople,menus:vMenus,ideas:vIdeas,shop:vShop,set:vSet};
+const TABS=[["home","🎄","Accueil"],["people","🗓️","Présences"],["menus","🍽️","Menus"],["ideas","📖","Recettes"],["shop","🛒","Courses"],["santa","🎅","Santa"],["set","⚙️","Réglages"]];
+const V={home:vHome,people:vPeople,menus:vMenus,ideas:vIdeas,shop:vShop,santa:vSanta,set:vSet};
 function render(){
  const a=document.activeElement,key=a&&$("#app").contains(a)&&(a.dataset.p||a.id)?{k:a.dataset.p||a.id,p:!!a.dataset.p,v:a.value,s:a.selectionStart,e:a.selectionEnd}:null,sx=$(".gw")?$(".gw").scrollLeft:0;
  $("#ttl").textContent=C.title||"Notre semaine";$("#sub").textContent=[C.place,base?N()+" jours · dès le "+dl(0,{day:"numeric",month:"short"}):""].filter(Boolean).join(" · ");document.title=C.title||"Séjour";
@@ -171,7 +197,7 @@ function render(){
  if(key){const el=key.p?document.querySelector(`[data-p="${key.k}"]`):document.getElementById(key.k);if(el){if(el.type!=="checkbox")el.value=key.v;el.focus();try{el.setSelectionRange(key.s,key.e)}catch(x){}}}
 }
 const val=id=>document.getElementById(id).value.trim();
-document.addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b||b.tagName==="SELECT")return;const a=b.dataset.act,id=b.dataset.id;
+document.addEventListener("click",e=>{if(e.target.closest("a"))return;const b=e.target.closest("[data-act]");if(!b||b.tagName==="SELECT")return;const a=b.dataset.act,id=b.dataset.id;
  if(a==="tab"){S.tab=b.dataset.t;render();scrollTo(0,0)}
  else if(a==="day"){S.day=+b.dataset.i;render()}
  else if(a==="goMenu"){S.tab="menus";render()}
@@ -189,9 +215,18 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(
  else if(a==="toCart"){let k=0;L(D.ideas[id].ing).forEach(g=>{if(!(D.shop||{})["i_"+g.id]){setp("shop/i_"+g.id,{name:g.n,qty:g.q||"",idea:id});k++}});toast(k?k+" article(s) ajouté(s) aux courses":"Déjà tous dans la liste")}
  else if(a==="addPerson"){const i=uid();S.sel=i;setp("people/"+i,{n:"Prénom",arr:0,arrT:"14:00",dep:N()-1,depT:"16:00",note:"",hue:Math.floor(Math.random()*360)})}
  else if(a==="delPerson"){if(confirm("Supprimer cette personne ?")){const i=S.sel;S.sel="";setp("people/"+i,null)}}
- else if(a==="addIdea"){const t=val("addIdea");if(!t)return;setp("ideas/"+uid(),{title:t,type:val("addIdeaT"),by:S.me,v:S.me?{[S.me]:1}:{}})}
+ else if(a==="tog"){S.o[b.dataset.k]=!S.o[b.dataset.k];render()}
+ else if(a==="delMI"){const k=b.dataset.k,x=(D.menu||{})[k]||{};if(x.idea===id)setp("menu/"+k+"/idea",null);setp("menu/"+k+"/ideas/"+id,null)}
+ else if(a==="addIdea"){const t=val("addIdea");if(!t)return;const l=(($("#addIdeaL")||{}).value||"").trim();S.o.addL=false;setp("ideas/"+uid(),{title:t,type:"Repas",by:S.me,link:l,v:S.me?{[S.me]:1}:{}})}
+ else if(a==="addRoom")setp("rooms/"+uid(),{n:"Chambre",cap:2});
+ else if(a==="delRoom"){if(confirm("Supprimer cette chambre ?")){L(D.people).filter(p=>p.room===id).forEach(p=>setp("people/"+p.id+"/room",null));setp("rooms/"+id,null)}}
+ else if(a==="draw"){const ids=L(D.santaP).map(p=>p.id);if(ids.length<2){toast("Il faut au moins 2 participants");return}if(Object.keys(D.santaD||{}).length&&!confirm("Refaire le tirage ? L’ancien sera remplacé."))return;let r;do{r=[...ids].sort(()=>Math.random()-.5)}while(r.some((x,i)=>x===ids[i]));setp("santaD",Object.fromEntries(ids.map((x,i)=>[x,r[i]])))}
+ else if(a==="clearSanta"){if(confirm("Effacer le tirage ?"))setp("santaD",null)}
+ else if(a==="addSP"){const t=val("addSP");if(!t)return;setp("santaP/"+uid(),{n:t})}
+ else if(a==="delSP"){Object.entries(D.santaD||{}).forEach(([g,r])=>{if(g===id||r===id)setp("santaD/"+g,null)});setp("santaP/"+id,null)}
+ else if(a==="impSP"){const have=L(D.santaP).map(x=>x.n.toLowerCase());let k=0;PL().forEach(p=>String(p.n||"").split(/\s*(?:&|\+|,|\bet\b)\s*/).map(s=>s.trim()).filter(Boolean).forEach(nm=>{if(nm!=="Prénom"&&!have.includes(nm.toLowerCase())){have.push(nm.toLowerCase());setp("santaP/"+uid(),{n:nm});k++}}));toast(k+" participant(s) ajouté(s)")}
  else if(a==="vote"){if(!S.me){toast("Choisis d’abord qui tu es");return}setp("ideas/"+id+"/v/"+S.me,((D.ideas[id].v||{})[S.me])?null:1)}
- else if(a==="delIdea"){if(confirm("Supprimer cette idée et ses ingrédients de la liste de courses ?")){L(D.shop).filter(i=>i.idea===id).forEach(i=>setp("shop/"+i.id,null));setp("ideas/"+id,null)}}
+ else if(a==="delIdea"){if(confirm("Supprimer cette recette et ses ingrédients de la liste de courses ?")){L(D.shop).filter(i=>i.idea===id).forEach(i=>setp("shop/"+i.id,null));setp("ideas/"+id,null)}}
  else if(a==="addItem"){const t=val("addItem");if(!t)return;setp("shop/"+uid(),{name:t,qty:val("addQty"),idea:val("addFor")})}
  else if(a==="delItem")setp("shop/"+id,null);
  else if(a==="clearDone")L(D.shop).filter(i=>i.done&&!i.exp).forEach(i=>setp("shop/"+i.id,null));
@@ -204,8 +239,11 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(
 });
 document.addEventListener("change",e=>{const el=e.target;
  if(el.dataset.act==="me"){S.me=el.value;ls("me",S.me);render();return}
+ if(el.dataset.act==="meS"){S.meS=el.value;ls("meS",S.meS);render();return}
+ if(el.dataset.act==="addMI"){if(el.value)setp("menu/"+el.dataset.k+"/ideas/"+el.value,1);return}
+ if(el.dataset.act==="tickGrp"){el.dataset.ids.split(",").forEach(i=>setp("shop/"+i+"/done",el.checked?true:null));return}
  if(el.dataset.p)setp(el.dataset.p,el.dataset.chk?(el.checked?true:null):el.dataset.num?(el.value===""?null:+el.value):el.value)});
-document.addEventListener("keydown",e=>{if(e.key==="Enter"&&["addItem","addIdea"].includes(e.target.id))e.target.closest(".card").querySelector(".b").click()});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&["addItem","addIdea","addSP"].includes(e.target.id))e.target.closest(".card").querySelector(".b,.g").click()});
 
 function boot(){sync();render();net();flush();poll()}
 (function(){let u=DB_URL;const h=location.hash.match(/db=([^&]+)/);if(!u&&h)u=decodeURIComponent(h[1]);if(!u)u=ls("db")||"";base=u.replace(/\.json$/,"").replace(/\/+$/,"");if(base)ls("db",base);
