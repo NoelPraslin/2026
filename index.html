@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Notre semaine</title>
+<style>
+:root{--bg:#faf6f0;--card:#fff;--ink:#2a2622;--mut:#7a7268;--line:#e8e0d5;--acc:#d9622b;--acc2:#fbe5d8;--ok:#2f8a57;--bad:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#1c1a18;--card:#262320;--ink:#f1ebe3;--mut:#a79d90;--line:#3a3530;--acc:#f08a55;--acc2:#3b2a20;--ok:#58c185;--bad:#ff7a6b}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 0 110px}
+main{max-width:860px;margin:0 auto;padding:12px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0 10px}
+h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 8px}.sub{color:var(--mut);font-size:13px}
+.st{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--acc2);white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:0 0 10px}
+.strip{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+.strip button{flex:0 0 auto;min-width:56px;padding:8px 6px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+.strip b{display:block;font-size:17px}.strip small{display:block;color:var(--mut);font-size:11px}
+.strip .on{background:var(--acc);border-color:var(--acc);color:#fff}.strip .on small{color:#fff}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;max-width:100%}
+input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc)}
+.b{font:inherit;border:0;border-radius:10px;padding:9px 14px;background:var(--acc);color:#fff;cursor:pointer}
+.g{font:inherit;border:1px solid var(--line);border-radius:10px;padding:7px 12px;background:transparent;color:var(--ink);cursor:pointer}
+.g.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.x{border:0;background:none;color:var(--mut);font-size:17px;cursor:pointer;padding:4px 8px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1 1 140px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--acc2);border-radius:99px;padding:3px 10px;font-size:14px;cursor:default}.chip small{color:var(--mut);margin-left:4px}
+.chip.t{cursor:pointer;opacity:.45}.chip.t.on{opacity:1;outline:2px solid var(--acc)}
+.meal{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}.meal:first-of-type{border-top:0}
+.meal .t{width:46px;color:var(--mut);font-size:13px}.meal .n{flex:1}.meal .c{font-size:13px;color:var(--mut)}
+.empty{color:var(--mut);font-style:italic}
+label.f{display:block;font-size:13px;color:var(--mut);margin:6px 0 2px}
+.vote.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.item{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:7px 0;border-top:1px solid var(--line)}
+.item .nm{flex:1 1 120px}.item.done .nm{text-decoration:line-through;color:var(--mut)}
+.item input[type=number]{width:74px}.item select{max-width:110px}
+.gw{overflow-x:auto;margin-bottom:10px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.grid{display:grid;min-width:max-content;width:100%;font-size:13px}
+.grid>div{border-bottom:1px solid var(--line);padding:6px 4px;display:flex;align-items:center;justify-content:center;min-height:38px}
+.gh{flex-direction:column;color:var(--mut);font-size:11px}.gh b{font-size:15px;color:var(--ink)}
+.gn{position:sticky;left:0;background:var(--card);justify-content:flex-start!important;font-weight:600;cursor:pointer;z-index:1;padding-left:8px!important}
+.gn.on{color:var(--acc)}.cell{cursor:pointer;font-size:11px;font-weight:600;color:#fff;text-shadow:0 0 2px #0006}
+.gr{padding:2px!important}.gr input{width:100%;border:0;background:transparent;padding:4px}
+.good{color:var(--ok)}.bad{color:var(--bad)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;text-align:right;border-top:1px solid var(--line)}td:first-child,th:first-child{text-align:left}
+nav{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);display:flex;padding:calc(4px + env(safe-area-inset-top,0px)) 4px 4px;z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:11px;padding:6px 0;cursor:pointer}
+nav i{display:block;font-style:normal;font-size:20px}nav .on{color:var(--acc);font-weight:600}
+#toast{position:fixed;left:50%;top:76px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;display:none;z-index:9}
+</style></head><body>
+<nav id="nav"></nav><main><header><div><h1 id="ttl"></h1><div class="sub" id="sub"></div></div><span class="st" id="st">…</span></header><div id="app"></div></main>
+<div id="toast"></div>
+<script>
+/* Si vous voulez figer l’adresse de la base ici, collez-la entre les guillemets. Sinon, l’écran de démarrage la demandera. */
+const DB_URL="https://noelpraslin-default-rtdb.europe-west1.firebasedatabase.app";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const DEF={title:"Notre semaine",place:"",start:iso(new Date()),days:7,places:"Maison, Terrasse, Restaurant, Pique-nique",cats:"Fruits & légumes, Viandes & poissons, Frais, Épicerie, Boissons, Autre",
+ meals:{m1:{n:"Petit-déj",t:"08:30"},m2:{n:"Déjeuner",t:"12:30"},m3:{n:"Goûter",t:"16:30"},m4:{n:"Apéro",t:"19:00"},m5:{n:"Dîner",t:"20:30"}}};
+let D={},Q=[],C=DEF,base="",fl=0;
+const S={tab:"home",day:0,me:"",sub:"list",mode:"idea",sel:"",fp:null,tool:"pres"};
+const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
+try{D=JSON.parse(ls("D")||"{}");Q=JSON.parse(ls("Q")||"[]")}catch(e){}S.me=ls("me")||"";
+const L=o=>Object.entries(o||{}).map(([id,v])=>Object.assign({id},v));
+const sync=()=>{C=Object.assign({},DEF,D.cfg||{});C.meals=D.cfg&&D.cfg.mealsInit?(D.cfg.meals||{}):((D.cfg&&D.cfg.meals)||DEF.meals)};
+const persist=()=>{ls("D",JSON.stringify(D));ls("Q",JSON.stringify(Q))};
+const MS=()=>L(C.meals).sort((a,b)=>(a.t||"").localeCompare(b.t||""));
+const PL=()=>L(D.people);const P=id=>(D.people||{})[id];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const t2m=t=>{const[a,b]=(t||"0:0").split(":");return(+a||0)*60+(+b||0)};
+const hh=t=>{const[a,b]=(t||"").split(":");return(+a)+"h"+(+b?b:"")};
+const N=()=>Math.max(1,Math.min(14,+C.days||7));
+const dd=i=>{const d=new Date(C.start+"T12:00:00");d.setDate(d.getDate()+i);return d};
+const dl=(i,o)=>dd(i).toLocaleDateString("fr-FR",o||{weekday:"short",day:"numeric"});
+const A=p=>(p.arr||0)*1440+t2m(p.arrT||"14:00"),Z=p=>(p.dep==null?N()-1:p.dep)*1440+t2m(p.depT||"16:00");
+const hereAt=(p,m)=>A(p)<=m&&m<=Z(p)&&!L(p.abs).some(a=>(a.d1||0)*1440+t2m(a.t1)<=m&&m<=(a.d2||0)*1440+t2m(a.t2));
+const at=(d,t)=>PL().filter(p=>hereAt(p,d*1440+t2m(t)));
+const cov=(p,d)=>{const s=Math.max(A(p),d*1440),e=Math.min(Z(p),d*1440+1439);if(s>e)return 0;let r=e-s+1;L(p.abs).forEach(a=>{const x=Math.max(s,(a.d1||0)*1440+t2m(a.t1)),y=Math.min(e,(a.d2||0)*1440+t2m(a.t2));if(y>=x)r-=y-x+1});return Math.max(0,r)};
+const ad=p=>p&&+p.ad===2?2:1,cnt=l=>l.reduce((s,p)=>s+ad(p),0);
+const money=n=>(Math.round(n*100)/100).toFixed(2).replace(".",",")+" €";
+const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2500)};
+const ss=o=>JSON.stringify(o,(k,v)=>v&&typeof v==="object"?Object.fromEntries(Object.entries(v).sort(([a],[b])=>a<b?-1:1)):v);
+const url=p=>base+"/sejour"+(p?"/"+p:"")+".json";
+
+function setp(p,v){if(p.startsWith("cfg/meals/")&&!(D.cfg&&D.cfg.mealsInit)){D.cfg=D.cfg||{};D.cfg.meals=JSON.parse(JSON.stringify(C.meals));D.cfg.mealsInit=true;Q.push({p:"cfg/meals",v:D.cfg.meals},{p:"cfg/mealsInit",v:true})}const k=p.split("/");let o=D;for(let i=0;i<k.length-1;i++)o=o[k[i]]=(o[k[i]]&&typeof o[k[i]]==="object")?o[k[i]]:{};const l=k[k.length-1];if(v==null)delete o[l];else o[l]=v;Q.push({p,v:v==null?null:v});persist();sync();render();flush()}
+async function flush(){if(fl||!base)return;fl=1;try{while(Q.length){const r=await fetch(url(Q[0].p),{method:"PUT",body:JSON.stringify(Q[0].v)});if(!r.ok)throw 0;Q.shift();persist()}}catch(e){}fl=0;net()}
+async function poll(){if(!base||document.hidden||Q.length||fl)return;try{const r=await fetch(url());if(!r.ok)throw 0;const j=(await r.json())||{};if(ss(j)!==ss(D)){D=j;persist();sync();render()}net(1)}catch(e){net(0)}}
+function net(ok){const s=$("#st");s.textContent=Q.length?"⏳ "+Q.length+" en attente":(ok===0||!navigator.onLine?"○ Hors ligne":"● Synchronisé");if(Q.length&&navigator.onLine)flush()}
+addEventListener("online",()=>{flush();poll()});addEventListener("offline",()=>net(0));document.addEventListener("visibilitychange",poll);
+
+const strip=()=>`<div class="strip">${Array.from({length:N()},(_,i)=>`<button data-act="day" data-i="${i}" class="${i===S.day?"on":""}"><small>${esc(dl(i,{weekday:"short"}))}</small><b>${dd(i).getDate()}</b><small>${esc(dl(i,{month:"short"}))}</small></button>`).join("")}</div>`;
+const inp=(p,v,ph,x)=>`<input data-p="${p}" value="${esc(v)}" placeholder="${esc(ph||"")}" ${x||""}>`;
+const names=l=>l.map(p=>`<span class="chip">${esc(p.n||"?")}${p.k>0?`<small>+${p.k} enf.</small>`:""}</span>`).join("");
+const meSel=()=>`Je suis : <select data-act="me"><option value="">— choisir —</option>${PL().map(p=>`<option value="${p.id}" ${p.id===S.me?"selected":""}>${esc(p.n)}</option>`).join("")}</select>`;
+const placeOpts=v=>`<option value="">—</option>`+C.places.split(",").map(s=>s.trim()).filter(Boolean).map(s=>`<option ${s===v?"selected":""}>${esc(s)}</option>`).join("");
+const menuTxt=x=>{const i=(D.ideas||{})[x.idea];return[i&&i.title,x.text].filter(Boolean).map(esc).join(" — ")};
+const slotLbl=s=>{const[d,m]=s.split("_"),mm=C.meals[m];return mm?dl(+d.slice(1),{weekday:"short",day:"numeric"})+" · "+mm.n:"?"};
+
+function vHome(){
+ const d=S.day,here=PL().filter(p=>cov(p,d)>0);
+ const chips=here.map(p=>{let n="";if(Math.floor(A(p)/1440)===d)n="arrive "+hh(p.arrT);if(Math.floor(Z(p)/1440)===d)n+=(n?" · ":"")+"part "+hh(p.depT);if(!n&&cov(p,d)<1440)n="absent par moments";return`<span class="chip">${esc(p.n)}${n?`<small>${n}</small>`:""}</span>`}).join("");
+ const meals=MS().map(m=>{const x=(D.menu||{})["d"+d+"_"+m.id]||{},pr=at(d,m.t);return`<div class="meal" data-act="goMenu"><div class="t">${esc(m.t)}</div><div class="n"><b>${esc(m.n)}</b><div style="margin-top:3px">${menuTxt(x)||'<span class="empty">à définir</span>'}</div>${x.place?`<div class="sub">📍 ${esc(x.place)}</div>`:""}<div class="chips" style="margin-top:4px">${names(pr)}</div></div><div class="c">👥 ${cnt(pr)}</div></div>`}).join("");
+ const left=L(D.shop).filter(i=>!i.exp&&!i.done).length;
+ return strip()+`<div class="card"><h2>${esc(dl(d,{weekday:"long",day:"numeric",month:"long"}))}</h2><div class="sub" style="margin-bottom:8px">${cnt(here)} personne(s) sur place</div><div class="chips">${chips||'<span class="empty">Personne pour l’instant</span>'}</div></div><div class="card"><h2>Repas du jour</h2>${meals}</div><div class="card row"><div class="grow"><b>🛒 ${left}</b> article(s) à acheter</div><button class="g" data-act="tab" data-t="shop">Voir</button></div>`}
+function vPeople(){
+ const n=N(),ps=PL();let g=`<div class="gw"><div class="grid" style="grid-template-columns:92px repeat(${n},minmax(42px,1fr)) 170px"><div class="gn" style="cursor:default"></div>`;
+ for(let d=0;d<n;d++)g+=`<div class="gh">${esc(dl(d,{weekday:"short"}))}<b>${dd(d).getDate()}</b></div>`;g+=`<div class="gh">Remarques</div>`;
+ ps.forEach((p,r)=>{const a=p.arr||0,z=p.dep==null?n-1:p.dep,h=r%2?205:18,col=`hsl(${h} 62% 48%)`,pale=`hsl(${h} 60% 70%)`;
+  g+=`<div class="gn ${S.sel===p.id?"on":""}" data-act="sel" data-id="${p.id}">${esc(p.n)}</div>`;
+  for(let d=0;d<n;d++){const c=cov(p,d),on=c>0,edge=d===a||d===z,t=!on?"":d===a&&d===z?hh(p.arrT).replace("h","–")+hh(p.depT):d===a?"▶"+hh(p.arrT):d===z?hh(p.depT)+"◀":c<1440?"◐":"";g+=`<div class="cell" data-act="cell" data-id="${p.id}" data-d="${d}" style="${on?`background:${c>=1440&&!edge?col:pale}`:""}">${t}</div>`}
+  g+=`<div class="gr">${inp("people/"+p.id+"/note",p.note,"…")}</div>`});
+ g+=`<div class="gn" style="cursor:default">Total</div>`;for(let d=0;d<n;d++)g+=`<div><b>${cnt(ps.filter(p=>cov(p,d)>0))}</b></div>`;g+=`<div></div></div></div>`;
+ const p=P(S.sel),opts=v=>Array.from({length:n},(_,i)=>`<option value="${i}" ${i===v?"selected":""}>${esc(dl(i,{weekday:"short",day:"numeric",month:"short"}))}</option>`).join("");
+ const ab=p?L(p.abs).map(x=>{const b=`people/${S.sel}/abs/${x.id}/`;return`<div class="row" style="margin-top:6px"><span class="sub">🚫 Du</span><select data-p="${b}d1" data-num="1">${opts(x.d1||0)}</select><input type="time" data-p="${b}t1" value="${esc(x.t1||"09:00")}"><span class="sub">au</span><select data-p="${b}d2" data-num="1">${opts(x.d2||0)}</select><input type="time" data-p="${b}t2" value="${esc(x.t2||"18:00")}"><button class="x" data-act="delAbs" data-id="${x.id}">🗑</button></div>`}).join(""):"";
+ const ed=p?`<div class="card"><div class="row"><div class="grow">${inp("people/"+S.sel+"/n",p.n,"Prénom",'style="width:100%"')}</div><button class="x" data-act="delPerson">🗑</button></div><div class="row"><div class="grow"><label class="f">Adultes (comptés)</label><select data-p="people/${S.sel}/ad" data-num="1"><option value="1" ${ad(p)===1?"selected":""}>1 adulte</option><option value="2" ${ad(p)===2?"selected":""}>2 adultes (couple)</option></select></div><div class="grow"><label class="f">Enfants (non comptés)</label><input type="number" min="0" max="9" data-p="people/${S.sel}/k" data-num="1" value="${p.k||0}"></div></div><div class="row"><div class="grow"><label class="f">Arrivée</label><select data-p="people/${S.sel}/arr" data-num="1">${opts(p.arr||0)}</select> <input type="time" data-p="people/${S.sel}/arrT" value="${esc(p.arrT||"14:00")}"></div><div class="grow"><label class="f">Départ</label><select data-p="people/${S.sel}/dep" data-num="1">${opts(p.dep==null?n-1:p.dep)}</select> <input type="time" data-p="people/${S.sel}/depT" value="${esc(p.depT||"16:00")}"></div></div><label class="f">Absences pendant le séjour</label>${ab||'<div class="empty">Aucune</div>'}<button class="g" style="margin-top:8px" data-act="addAbs">+ Absence</button></div>`:'<div class="sub">Touche un prénom pour régler précisément les horaires et les absences.</div>';
+ return`<div class="row" style="margin-bottom:10px"><div class="grow sub">${cnt(ps)} personne(s)</div><button class="b" data-act="addPerson">+ Ajouter</button></div><div class="row" style="margin-bottom:8px"><span class="sub">Toucher une case :</span><button class="g ${S.tool!=="abs"?"on":""}" data-act="tool" data-t="pres">✏️ Arrivée / départ</button><button class="g ${S.tool==="abs"?"on":""}" data-act="tool" data-t="abs">🚫 Absence</button></div>`+g+ed}
+function vMenus(){
+ const d=S.day,rid=L(D.ideas).filter(i=>i.type==="Repas").sort((a,b)=>Object.keys(b.v||{}).length-Object.keys(a.v||{}).length);
+ return strip()+MS().map(m=>{const k="d"+d+"_"+m.id,x=(D.menu||{})[k]||{},pr=at(d,m.t),b="menu/"+k+"/";
+ return`<div class="card"><h2>${esc(m.n)} <span class="sub">${esc(m.t)}</span></h2>
+ <div class="chips" style="margin-bottom:6px">${names(pr)||'<span class="empty">Personne</span>'} <span class="sub">(${cnt(pr)})</span></div>
+ <label class="f">📍 Lieu</label><select data-p="${b}place" style="width:100%">${placeOpts(x.place)}</select>
+ <label class="f">Idée repas (issue des votes)</label><select data-p="${b}idea" style="width:100%"><option value="">— aucune —</option>${rid.map(i=>`<option value="${i.id}" ${i.id===x.idea?"selected":""}>${esc(i.title)} (👍 ${Object.keys(i.v||{}).length})</option>`).join("")}</select>
+ <label class="f">Précisions / menu libre</label><textarea data-p="${b}text" rows="2" style="width:100%">${esc(x.text)}</textarea></div>`}).join("")}
+function vIdeas(){
+ const l=L(D.ideas).sort((a,b)=>Object.keys(b.v||{}).length-Object.keys(a.v||{}).length);
+ return`<div class="card"><h2>Proposer une idée</h2><div class="row"><div class="grow"><input id="addIdea" placeholder="ex. Raclette" style="width:100%"></div><select id="addIdeaT"><option>Repas</option><option>Activité</option><option>Autre</option></select><button class="b" data-act="addIdea">Ajouter</button></div><div class="sub" style="margin-top:8px">${meSel()}</div></div>`+l.map(i=>{const on=(i.v||{})[S.me],ing=L(i.ing);
+ const ig=i.type==="Repas"?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px"><div class="sub">Ingrédients</div>${ing.map(g=>`<div class="item"><span class="nm">${esc(g.n)}${g.q?` <small class="sub">× ${esc(g.q)}</small>`:""}${(D.shop||{})["i_"+g.id]?` <small class="sub">· ✓ dans la liste</small>`:""}</span><button class="x" data-act="delIng" data-id="${i.id}" data-ing="${g.id}">🗑</button></div>`).join("")}<div class="row" style="margin-top:6px"><div class="grow"><input id="in${i.id}" placeholder="Ingrédient" style="width:100%"></div><input id="iq${i.id}" placeholder="Qté" style="width:70px"><button class="g" data-act="addIng" data-id="${i.id}">+</button></div>${ing.length?`<button class="b" style="margin-top:8px" data-act="toCart" data-id="${i.id}">🛒 Ajouter à la liste de courses</button>`:""}</div>`:"";
+ return`<div class="card"><div class="row"><div class="grow"><b>${esc(i.title)}</b><div class="sub">${esc(i.type)}${P(i.by)?" · par "+esc(P(i.by).n):""}</div></div><button class="g vote ${on?"on":""}" data-act="vote" data-id="${i.id}">👍 ${Object.keys(i.v||{}).length}</button><button class="x" data-act="delIdea" data-id="${i.id}">🗑</button></div>${ig}</div>`}).join("")}
+function budget(){const paid={},owe={};let tot=0;const ids=PL().map(p=>p.id);ids.forEach(i=>paid[i]=owe[i]=0);
+ L(D.shop).filter(i=>i.exp&&+i.price>0&&paid[i.payer]!=null).forEach(i=>{const pr=+i.price;tot+=pr;let ps=Object.keys(i.parts||{}).filter(x=>paid[x]!=null);if(!ps.length)ps=ids;const W=ps.reduce((s,x)=>s+ad(P(x)),0);paid[i.payer]+=pr;ps.forEach(x=>owe[x]+=pr*ad(P(x))/W)});
+ const bal=ids.map(id=>({id,b:paid[id]-owe[id]})),deb=bal.filter(x=>x.b<-.005).map(x=>({...x})).sort((a,b)=>a.b-b.b),cre=bal.filter(x=>x.b>.005).map(x=>({...x})).sort((a,b)=>b.b-a.b),tr=[];
+ while(deb.length&&cre.length){const a=deb[0],c=cre[0],m=Math.min(-a.b,c.b);tr.push([a.id,c.id,m]);a.b+=m;c.b-=m;if(a.b>-.005)deb.shift();if(c.b<.005)cre.shift()}
+ return{paid,owe,tot,tr}}
+
+function vShop(){
+ const tabs=`<div class="row" style="margin-bottom:10px"><button class="g ${S.sub==="list"?"on":""}" data-act="sub" data-t="list">🛒 Liste</button><button class="g ${S.sub==="bud"?"on":""}" data-act="sub" data-t="bud">💶 Budget</button></div>`;
+ if(S.sub==="bud"){const B=budget(),ex=L(D.shop).filter(i=>i.exp),fp=S.fp||Object.fromEntries(PL().map(p=>[p.id,1]));
+  const pay=`<option value="">Payé par…</option>`+PL().map(p=>`<option value="${p.id}">${esc(p.n)}</option>`).join("");
+  return tabs+`<div class="card"><h2>Total : ${money(B.tot)}</h2><div class="sub">${cnt(PL())?money(B.tot/cnt(PL()))+" par adulte en moyenne":""}</div>
+  <table><tr><th></th><th>Payé</th><th>Part</th><th>Solde</th></tr>${PL().map(p=>{const s=B.paid[p.id]-B.owe[p.id];return`<tr><td>${esc(p.n)}</td><td>${money(B.paid[p.id])}</td><td>${money(B.owe[p.id])}</td><td class="${s>=.005?"good":s<=-.005?"bad":""}"><b>${money(s)}</b></td></tr>`}).join("")}</table></div>
+  <div class="card"><h2>Qui rembourse qui</h2>${B.tr.map(([a,b,m])=>`<div>${esc(P(a).n)} → ${esc(P(b).n)} : <b>${money(m)}</b></div>`).join("")||'<span class="empty">Tout est équilibré</span>'}</div>
+  <div class="card"><h2>Nouvelle dépense</h2><div class="row"><div class="grow"><input id="eT" placeholder="ex. Courses Leclerc, essence…" style="width:100%"></div><input id="eA" type="number" step="0.01" placeholder="€" style="width:90px"><select id="eP">${pay}</select></div><label class="f">Partagée entre</label><div class="chips">${PL().map(p=>`<span class="chip t ${fp[p.id]?"on":""}" data-act="fp" data-id="${p.id}">${esc(p.n)}</span>`).join("")}</div><button class="b" style="margin-top:10px" data-act="addExp">Ajouter</button></div>
+  <div class="card"><h2>Dépenses</h2>${ex.map(i=>`<div class="item"><span class="nm">${esc(i.name)}<div class="sub">${P(i.payer)?"payé par "+esc(P(i.payer).n):"sans payeur"} · ${cnt(Object.keys(i.parts||{}).length?Object.keys(i.parts).map(P).filter(Boolean):PL())} pers.</div></div><b>${money(+i.price)}</b><button class="x" data-act="delItem" data-id="${i.id}">🗑</button></div>`).join("")||'<span class="empty">Aucune dépense</span>'}</div>`}
+ const its=L(D.shop).filter(i=>!i.exp),ideas=L(D.ideas).filter(i=>i.type==="Repas"),ik=i=>i.idea&&(D.ideas||{})[i.idea]?i.idea:"";
+ const gr={};its.forEach(i=>{const k=ik(i);(gr[k]=gr[k]||[]).push(i)});
+ const keys=[...ideas.map(i=>i.id),""].filter(k=>gr[k]);
+ const row=i=>`<div class="item ${i.done?"done":""}"><input type="checkbox" data-p="shop/${i.id}/done" data-chk="1" ${i.done?"checked":""}><span class="nm">${esc(i.name)}${i.qty?` <small class="sub">× ${esc(i.qty)}</small>`:""}</span><button class="x" data-act="delItem" data-id="${i.id}">🗑</button></div>`;
+ return tabs+`<div class="card"><h2>Ajouter un article</h2><div class="row"><div class="grow"><input id="addItem" placeholder="ex. Tomates" style="width:100%"></div><input id="addQty" placeholder="Qté" style="width:70px"></div><div class="row" style="margin-top:8px"><select id="addFor" class="grow"><option value="">Pour : Autre (pas un repas)</option>${ideas.map(i=>`<option value="${i.id}">Pour : ${esc(i.title)}</option>`).join("")}</select><button class="b" data-act="addItem">Ajouter</button></div></div>`+
+ (keys.map(k=>`<div class="card"><h2>${esc(k?D.ideas[k].title:"Autre")}</h2>${gr[k].sort((a,b)=>!!a.done-!!b.done).map(row).join("")}</div>`).join("")||'<div class="card empty">La liste est vide.</div>')+(its.some(i=>i.done)?'<button class="g" data-act="clearDone">Retirer les articles cochés</button>':"")}
+
+function vSet(){
+ const link=location.href.split("#")[0]+"#db="+encodeURIComponent(base);
+ return`<div class="card"><h2>Le séjour</h2><label class="f">Titre</label>${inp("cfg/title",C.title,"",'style="width:100%"')}<label class="f">Lieu</label>${inp("cfg/place",C.place,"",'style="width:100%"')}
+ <div class="row"><div class="grow"><label class="f">Premier jour</label><input type="date" data-p="cfg/start" value="${esc(C.start)}"></div><div class="grow"><label class="f">Nombre de jours (1 à 14)</label><input type="number" min="1" max="14" data-p="cfg/days" data-num="1" value="${N()}"></div></div></div>
+ <div class="card"><h2>Repas</h2>${MS().map(m=>`<div class="row" style="margin-bottom:6px"><div class="grow">${inp("cfg/meals/"+m.id+"/n",m.n,"Nom",'style="width:100%"')}</div><input type="time" data-p="cfg/meals/${m.id}/t" value="${esc(m.t)}"><button class="x" data-act="delMeal" data-id="${m.id}">🗑</button></div>`).join("")}<button class="g" data-act="addMeal">+ Ajouter un repas</button></div>
+ <div class="card"><h2>Lieux des repas</h2><div class="sub">Séparés par des virgules</div>${inp("cfg/places",C.places,"",'style="width:100%"')}</div>
+  <div class="card"><h2>Moi</h2>${meSel()}</div>
+ <div class="card"><h2>Lien à partager</h2><div class="sub">Toute personne qui a ce lien peut participer, sans compte.</div><input readonly value="${esc(link)}" style="width:100%;margin:8px 0" onclick="this.select()"><button class="b" data-act="copy">Copier le lien</button></div>`}
+
+function vSetup(){return`<div class="card"><h2>Première configuration (5 minutes, une seule fois)</h2><ol style="padding-left:20px;margin:0 0 10px"><li>Sur <b>console.firebase.google.com</b>, crée un projet gratuit (sans Analytics).</li><li>Menu « Build » → <b>Realtime Database</b> → « Créer une base », choisis l’Europe.</li><li>Onglet <b>Règles</b> : remplace par <code>{"rules":{".read":true,".write":true}}</code> puis « Publier ».</li><li>Copie l’adresse affichée en haut de l’onglet Données (https://….firebasedatabase.app) et colle-la ici :</li></ol><input id="dbu" placeholder="https://xxxx-default-rtdb.europe-west1.firebasedatabase.app" style="width:100%;margin-bottom:8px"><button class="b" data-act="setup">Valider</button><div class="sub" style="margin-top:8px">Tu obtiendras ensuite un lien à envoyer aux 9 autres.</div></div>`}
+
+const TABS=[["home","🏠","Accueil"],["people","👥","Présences"],["menus","🍽️","Menus"],["ideas","💡","Idées"],["shop","🛒","Courses"],["set","⚙️","Réglages"]];
+const V={home:vHome,people:vPeople,menus:vMenus,ideas:vIdeas,shop:vShop,set:vSet};
+function render(){
+ const a=document.activeElement,key=a&&$("#app").contains(a)&&(a.dataset.p||a.id)?{k:a.dataset.p||a.id,p:!!a.dataset.p,v:a.value,s:a.selectionStart,e:a.selectionEnd}:null,sx=$(".gw")?$(".gw").scrollLeft:0;
+ $("#ttl").textContent=C.title||"Notre semaine";$("#sub").textContent=[C.place,base?N()+" jours · dès le "+dl(0,{day:"numeric",month:"short"}):""].filter(Boolean).join(" · ");document.title=C.title||"Séjour";
+ $("#nav").innerHTML=base?TABS.map(t=>`<button data-act="tab" data-t="${t[0]}" class="${S.tab===t[0]?"on":""}"><i>${t[1]}</i>${t[2]}</button>`).join(""):"";
+ if(S.day>=N())S.day=0;
+ $("#app").innerHTML=base?V[S.tab]():vSetup();
+ if($(".gw"))$(".gw").scrollLeft=sx;
+ if(key){const el=key.p?document.querySelector(`[data-p="${key.k}"]`):document.getElementById(key.k);if(el){if(el.type!=="checkbox")el.value=key.v;el.focus();try{el.setSelectionRange(key.s,key.e)}catch(x){}}}
+}
+const val=id=>document.getElementById(id).value.trim();
+document.addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b||b.tagName==="SELECT")return;const a=b.dataset.act,id=b.dataset.id;
+ if(a==="tab"){S.tab=b.dataset.t;render();scrollTo(0,0)}
+ else if(a==="day"){S.day=+b.dataset.i;render()}
+ else if(a==="goMenu"){S.tab="menus";render()}
+ else if(a==="sub"){S.sub=b.dataset.t;render()}
+ else if(a==="mode"){S.mode=b.dataset.t;render()}
+ else if(a==="sel"){S.sel=id;render()}
+ else if(a==="tool"){S.tool=b.dataset.t;render()}
+ else if(a==="cell"){const p=P(id),d=+b.dataset.d,x=p.arr||0,z=p.dep==null?N()-1:p.dep;S.sel=id;
+  if(S.tool==="abs"){if(d<x||d>z){toast("Hors des dates de présence");return}const ex=L(p.abs).find(q=>q.d1===d&&q.d2===d&&q.t1==="00:00"&&q.t2==="23:59");if(ex)setp("people/"+id+"/abs/"+ex.id,null);else setp("people/"+id+"/abs/"+uid(),{d1:d,t1:"00:00",d2:d,t2:"23:59"})}
+  else if(d<x)setp("people/"+id+"/arr",d);else if(d>z)setp("people/"+id+"/dep",d);else if(d-x<=z-d)setp("people/"+id+"/arr",d);else setp("people/"+id+"/dep",d)}
+ else if(a==="addAbs"){const d=Math.min(S.day,N()-1);setp("people/"+S.sel+"/abs/"+uid(),{d1:d,t1:"09:00",d2:d,t2:"18:00"})}
+ else if(a==="delAbs")setp("people/"+S.sel+"/abs/"+id,null);
+ else if(a==="addIng"){const t=val("in"+id);if(!t)return;setp("ideas/"+id+"/ing/"+uid(),{n:t,q:val("iq"+id)})}
+ else if(a==="delIng")setp("ideas/"+id+"/ing/"+b.dataset.ing,null);
+ else if(a==="toCart"){let k=0;L(D.ideas[id].ing).forEach(g=>{if(!(D.shop||{})["i_"+g.id]){setp("shop/i_"+g.id,{name:g.n,qty:g.q||"",idea:id});k++}});toast(k?k+" article(s) ajouté(s) aux courses":"Déjà tous dans la liste")}
+ else if(a==="addPerson"){const i=uid();S.sel=i;setp("people/"+i,{n:"Prénom",arr:0,arrT:"14:00",dep:N()-1,depT:"16:00",note:"",hue:Math.floor(Math.random()*360)})}
+ else if(a==="delPerson"){if(confirm("Supprimer cette personne ?")){const i=S.sel;S.sel="";setp("people/"+i,null)}}
+ else if(a==="addIdea"){const t=val("addIdea");if(!t)return;setp("ideas/"+uid(),{title:t,type:val("addIdeaT"),by:S.me,v:S.me?{[S.me]:1}:{}})}
+ else if(a==="vote"){if(!S.me){toast("Choisis d’abord qui tu es");return}setp("ideas/"+id+"/v/"+S.me,((D.ideas[id].v||{})[S.me])?null:1)}
+ else if(a==="delIdea"){if(confirm("Supprimer cette idée et ses ingrédients de la liste de courses ?")){L(D.shop).filter(i=>i.idea===id).forEach(i=>setp("shop/"+i.id,null));setp("ideas/"+id,null)}}
+ else if(a==="addItem"){const t=val("addItem");if(!t)return;setp("shop/"+uid(),{name:t,qty:val("addQty"),idea:val("addFor")})}
+ else if(a==="delItem")setp("shop/"+id,null);
+ else if(a==="clearDone")L(D.shop).filter(i=>i.done&&!i.exp).forEach(i=>setp("shop/"+i.id,null));
+ else if(a==="fp"){S.fp=S.fp||Object.fromEntries(PL().map(p=>[p.id,1]));if(S.fp[id])delete S.fp[id];else S.fp[id]=1;render()}
+ else if(a==="addExp"){const t=val("eT"),m=+val("eA"),p=val("eP");if(!t||!(m>0)||!p){toast("Titre, montant et payeur sont requis");return}const f=S.fp||Object.fromEntries(PL().map(p=>[p.id,1]));setp("shop/"+uid(),{name:t,price:m,payer:p,exp:1,done:true,parts:f});S.fp=null}
+ else if(a==="addMeal")setp("cfg/meals/m"+uid(),{n:"Nouveau repas",t:"12:00"});
+ else if(a==="delMeal"){if(confirm("Supprimer ce repas ?"))setp("cfg/meals/"+id,null)}
+ else if(a==="copy"){navigator.clipboard&&navigator.clipboard.writeText(location.href.split("#")[0]+"#db="+encodeURIComponent(base)).then(()=>toast("Lien copié"))}
+ else if(a==="setup"){const u=val("dbu").replace(/\.json$/,"").replace(/\/+$/,"");if(!/^https:\/\/.+/.test(u)){toast("Adresse invalide");return}base=u;ls("db",u);history.replaceState(null,"","#db="+encodeURIComponent(u));boot()}
+});
+document.addEventListener("change",e=>{const el=e.target;
+ if(el.dataset.act==="me"){S.me=el.value;ls("me",S.me);render();return}
+ if(el.dataset.p)setp(el.dataset.p,el.dataset.chk?(el.checked?true:null):el.dataset.num?(el.value===""?null:+el.value):el.value)});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&["addItem","addIdea"].includes(e.target.id))e.target.closest(".card").querySelector(".b").click()});
+
+function boot(){sync();render();net();flush();poll()}
+(function(){let u=DB_URL;const h=location.hash.match(/db=([^&]+)/);if(!u&&h)u=decodeURIComponent(h[1]);if(!u)u=ls("db")||"";base=u.replace(/\.json$/,"").replace(/\/+$/,"");if(base)ls("db",base);
+ const t=new Date();sync();const i=Math.round((new Date(iso(t)+"T12:00:00")-new Date(C.start+"T12:00:00"))/864e5);if(i>=0&&i<N())S.day=i;boot();setInterval(poll,5000)})();
+</script></body></html>
