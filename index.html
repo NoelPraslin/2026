@@ -6,7 +6,7 @@
 :root{--bg:#faf6f0;--card:#fff;--ink:#2a2622;--mut:#7a7268;--line:#e8e0d5;--acc:#d9622b;--acc2:#fbe5d8;--ok:#2f8a57;--bad:#c0392b}
 @media(prefers-color-scheme:dark){:root{--bg:#1c1a18;--card:#262320;--ink:#f1ebe3;--mut:#a79d90;--line:#3a3530;--acc:#f08a55;--acc2:#3b2a20;--ok:#58c185;--bad:#ff7a6b}}
 *{box-sizing:border-box}html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 0 110px}
+body{background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top,0) 0 90px}
 main{max-width:860px;margin:0 auto;padding:12px}
 header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0 10px}
 h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 8px}.sub{color:var(--mut);font-size:13px}
@@ -43,13 +43,13 @@ label.f{display:block;font-size:13px;color:var(--mut);margin:6px 0 2px}
 .gr{padding:2px!important}.gr input{width:100%;border:0;background:transparent;padding:4px}
 .good{color:var(--ok)}.bad{color:var(--bad)}
 table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;text-align:right;border-top:1px solid var(--line)}td:first-child,th:first-child{text-align:left}
-nav{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);display:flex;padding:calc(4px + env(safe-area-inset-top,0px)) 4px 4px;z-index:5}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px));z-index:5}
 nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:11px;padding:6px 0;cursor:pointer}
 nav i{display:block;font-style:normal;font-size:20px}nav .on{color:var(--acc);font-weight:600}
-#toast{position:fixed;left:50%;top:76px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;display:none;z-index:9}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;font-size:14px;display:none;z-index:9}
 </style></head><body>
-<nav id="nav"></nav><main><header><div><h1 id="ttl"></h1><div class="sub" id="sub"></div></div><span class="st" id="st">…</span></header><div id="app"></div></main>
-<div id="toast"></div>
+<main><header><div><h1 id="ttl"></h1><div class="sub" id="sub"></div></div><span class="st" id="st">…</span></header><div id="app"></div></main>
+<nav id="nav"></nav><div id="toast"></div>
 <script>
 /* Si vous voulez figer l’adresse de la base ici, collez-la entre les guillemets. Sinon, l’écran de démarrage la demandera. */
 const DB_URL="https://noelpraslin-default-rtdb.europe-west1.firebasedatabase.app";
@@ -77,7 +77,7 @@ const A=p=>(p.arr||0)*1440+t2m(p.arrT||"14:00"),Z=p=>(p.dep==null?N()-1:p.dep)*1
 const hereAt=(p,m)=>A(p)<=m&&m<=Z(p)&&!L(p.abs).some(a=>(a.d1||0)*1440+t2m(a.t1)<=m&&m<=(a.d2||0)*1440+t2m(a.t2));
 const at=(d,t)=>PL().filter(p=>hereAt(p,d*1440+t2m(t)));
 const cov=(p,d)=>{const s=Math.max(A(p),d*1440),e=Math.min(Z(p),d*1440+1439);if(s>e)return 0;let r=e-s+1;L(p.abs).forEach(a=>{const x=Math.max(s,(a.d1||0)*1440+t2m(a.t1)),y=Math.min(e,(a.d2||0)*1440+t2m(a.t2));if(y>=x)r-=y-x+1});return Math.max(0,r)};
-const ad=p=>p&&+p.ad===2?2:1,cnt=l=>l.reduce((s,p)=>s+ad(p),0);
+const ad=p=>p?Math.max(1,Math.round(+p.ad||1)):1,cnt=l=>l.reduce((s,p)=>s+ad(p),0);
 const money=n=>(Math.round(n*100)/100).toFixed(2).replace(".",",")+" €";
 const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2500)};
 const ss=o=>JSON.stringify(o,(k,v)=>v&&typeof v==="object"?Object.fromEntries(Object.entries(v).sort(([a],[b])=>a<b?-1:1)):v);
@@ -91,7 +91,7 @@ addEventListener("online",()=>{flush();poll()});addEventListener("offline",()=>n
 
 const strip=()=>`<div class="strip">${Array.from({length:N()},(_,i)=>`<button data-act="day" data-i="${i}" class="${i===S.day?"on":""}"><small>${esc(dl(i,{weekday:"short"}))}</small><b>${dd(i).getDate()}</b><small>${esc(dl(i,{month:"short"}))}</small></button>`).join("")}</div>`;
 const inp=(p,v,ph,x)=>`<input data-p="${p}" value="${esc(v)}" placeholder="${esc(ph||"")}" ${x||""}>`;
-const names=l=>l.map(p=>`<span class="chip">${esc(p.n||"?")}${p.k>0?`<small>+${p.k} enf.</small>`:""}</span>`).join("");
+const names=l=>l.map(p=>`<span class="chip">${esc(p.n||"?")}</span>`).join("");
 const meSel=()=>`Je suis : <select data-act="me"><option value="">— choisir —</option>${PL().map(p=>`<option value="${p.id}" ${p.id===S.me?"selected":""}>${esc(p.n)}</option>`).join("")}</select>`;
 const placeOpts=v=>`<option value="">—</option>`+C.places.split(",").map(s=>s.trim()).filter(Boolean).map(s=>`<option ${s===v?"selected":""}>${esc(s)}</option>`).join("");
 const menuTxt=x=>{const i=(D.ideas||{})[x.idea];return[i&&i.title,x.text].filter(Boolean).map(esc).join(" — ")};
@@ -100,7 +100,7 @@ const slotLbl=s=>{const[d,m]=s.split("_"),mm=C.meals[m];return mm?dl(+d.slice(1)
 function vHome(){
  const d=S.day,here=PL().filter(p=>cov(p,d)>0);
  const chips=here.map(p=>{let n="";if(Math.floor(A(p)/1440)===d)n="arrive "+hh(p.arrT);if(Math.floor(Z(p)/1440)===d)n+=(n?" · ":"")+"part "+hh(p.depT);if(!n&&cov(p,d)<1440)n="absent par moments";return`<span class="chip">${esc(p.n)}${n?`<small>${n}</small>`:""}</span>`}).join("");
- const meals=MS().map(m=>{const x=(D.menu||{})["d"+d+"_"+m.id]||{},pr=at(d,m.t);return`<div class="meal" data-act="goMenu"><div class="t">${esc(m.t)}</div><div class="n"><b>${esc(m.n)}</b><div style="margin-top:3px">${menuTxt(x)||'<span class="empty">à définir</span>'}</div>${x.place?`<div class="sub">📍 ${esc(x.place)}</div>`:""}<div class="chips" style="margin-top:4px">${names(pr)}</div></div><div class="c">👥 ${cnt(pr)}</div></div>`}).join("");
+ const meals=MS().map(m=>{const x=(D.menu||{})["d"+d+"_"+m.id]||{},pr=at(d,m.t);return`<div class="meal" data-act="goMenu"><div class="t">${esc(m.t)}</div><div class="n"><b>${esc(m.n)}</b><div style="margin-top:3px">${menuTxt(x)||'<span class="empty">à définir</span>'}</div>${x.place?`<div class="sub">📍 ${esc(x.place)}</div>`:""}</div><div class="c">👥 ${cnt(pr)}</div></div>`}).join("");
  const left=L(D.shop).filter(i=>!i.exp&&!i.done).length;
  return strip()+`<div class="card"><h2>${esc(dl(d,{weekday:"long",day:"numeric",month:"long"}))}</h2><div class="sub" style="margin-bottom:8px">${cnt(here)} personne(s) sur place</div><div class="chips">${chips||'<span class="empty">Personne pour l’instant</span>'}</div></div><div class="card"><h2>Repas du jour</h2>${meals}</div><div class="card row"><div class="grow"><b>🛒 ${left}</b> article(s) à acheter</div><button class="g" data-act="tab" data-t="shop">Voir</button></div>`}
 function vPeople(){
@@ -113,7 +113,7 @@ function vPeople(){
  g+=`<div class="gn" style="cursor:default">Total</div>`;for(let d=0;d<n;d++)g+=`<div><b>${cnt(ps.filter(p=>cov(p,d)>0))}</b></div>`;g+=`<div></div></div></div>`;
  const p=P(S.sel),opts=v=>Array.from({length:n},(_,i)=>`<option value="${i}" ${i===v?"selected":""}>${esc(dl(i,{weekday:"short",day:"numeric",month:"short"}))}</option>`).join("");
  const ab=p?L(p.abs).map(x=>{const b=`people/${S.sel}/abs/${x.id}/`;return`<div class="row" style="margin-top:6px"><span class="sub">🚫 Du</span><select data-p="${b}d1" data-num="1">${opts(x.d1||0)}</select><input type="time" data-p="${b}t1" value="${esc(x.t1||"09:00")}"><span class="sub">au</span><select data-p="${b}d2" data-num="1">${opts(x.d2||0)}</select><input type="time" data-p="${b}t2" value="${esc(x.t2||"18:00")}"><button class="x" data-act="delAbs" data-id="${x.id}">🗑</button></div>`}).join(""):"";
- const ed=p?`<div class="card"><div class="row"><div class="grow">${inp("people/"+S.sel+"/n",p.n,"Prénom",'style="width:100%"')}</div><button class="x" data-act="delPerson">🗑</button></div><div class="row"><div class="grow"><label class="f">Adultes (comptés)</label><select data-p="people/${S.sel}/ad" data-num="1"><option value="1" ${ad(p)===1?"selected":""}>1 adulte</option><option value="2" ${ad(p)===2?"selected":""}>2 adultes (couple)</option></select></div><div class="grow"><label class="f">Enfants (non comptés)</label><input type="number" min="0" max="9" data-p="people/${S.sel}/k" data-num="1" value="${p.k||0}"></div></div><div class="row"><div class="grow"><label class="f">Arrivée</label><select data-p="people/${S.sel}/arr" data-num="1">${opts(p.arr||0)}</select> <input type="time" data-p="people/${S.sel}/arrT" value="${esc(p.arrT||"14:00")}"></div><div class="grow"><label class="f">Départ</label><select data-p="people/${S.sel}/dep" data-num="1">${opts(p.dep==null?n-1:p.dep)}</select> <input type="time" data-p="people/${S.sel}/depT" value="${esc(p.depT||"16:00")}"></div></div><label class="f">Absences pendant le séjour</label>${ab||'<div class="empty">Aucune</div>'}<button class="g" style="margin-top:8px" data-act="addAbs">+ Absence</button></div>`:'<div class="sub">Touche un prénom pour régler précisément les horaires et les absences.</div>';
+ const ed=p?`<div class="card"><div class="row"><div class="grow">${inp("people/"+S.sel+"/n",p.n,"Prénom",'style="width:100%"')}</div><button class="x" data-act="delPerson">🗑</button></div><div class="row"><div class="grow"><label class="f">Nombre d’adultes</label><input type="number" min="1" max="20" data-p="people/${S.sel}/ad" data-num="1" value="${ad(p)}"></div></div><div class="row"><div class="grow"><label class="f">Arrivée</label><select data-p="people/${S.sel}/arr" data-num="1">${opts(p.arr||0)}</select> <input type="time" data-p="people/${S.sel}/arrT" value="${esc(p.arrT||"14:00")}"></div><div class="grow"><label class="f">Départ</label><select data-p="people/${S.sel}/dep" data-num="1">${opts(p.dep==null?n-1:p.dep)}</select> <input type="time" data-p="people/${S.sel}/depT" value="${esc(p.depT||"16:00")}"></div></div><label class="f">Absences pendant le séjour</label>${ab||'<div class="empty">Aucune</div>'}<button class="g" style="margin-top:8px" data-act="addAbs">+ Absence</button></div>`:'<div class="sub">Touche un prénom pour régler précisément les horaires et les absences.</div>';
  return`<div class="row" style="margin-bottom:10px"><div class="grow sub">${cnt(ps)} personne(s)</div><button class="b" data-act="addPerson">+ Ajouter</button></div><div class="row" style="margin-bottom:8px"><span class="sub">Toucher une case :</span><button class="g ${S.tool!=="abs"?"on":""}" data-act="tool" data-t="pres">✏️ Arrivée / départ</button><button class="g ${S.tool==="abs"?"on":""}" data-act="tool" data-t="abs">🚫 Absence</button></div>`+g+ed}
 function vMenus(){
  const d=S.day,rid=L(D.ideas).filter(i=>i.type==="Repas").sort((a,b)=>Object.keys(b.v||{}).length-Object.keys(a.v||{}).length);
@@ -151,13 +151,11 @@ function vShop(){
  (keys.map(k=>`<div class="card"><h2>${esc(k?D.ideas[k].title:"Autre")}</h2>${gr[k].sort((a,b)=>!!a.done-!!b.done).map(row).join("")}</div>`).join("")||'<div class="card empty">La liste est vide.</div>')+(its.some(i=>i.done)?'<button class="g" data-act="clearDone">Retirer les articles cochés</button>':"")}
 
 function vSet(){
- const link=location.href.split("#")[0]+"#db="+encodeURIComponent(base);
- return`<div class="card"><h2>Le séjour</h2><label class="f">Titre</label>${inp("cfg/title",C.title,"",'style="width:100%"')}<label class="f">Lieu</label>${inp("cfg/place",C.place,"",'style="width:100%"')}
+  return`<div class="card"><h2>Le séjour</h2><label class="f">Titre</label>${inp("cfg/title",C.title,"",'style="width:100%"')}<label class="f">Lieu</label>${inp("cfg/place",C.place,"",'style="width:100%"')}
  <div class="row"><div class="grow"><label class="f">Premier jour</label><input type="date" data-p="cfg/start" value="${esc(C.start)}"></div><div class="grow"><label class="f">Nombre de jours (1 à 14)</label><input type="number" min="1" max="14" data-p="cfg/days" data-num="1" value="${N()}"></div></div></div>
  <div class="card"><h2>Repas</h2>${MS().map(m=>`<div class="row" style="margin-bottom:6px"><div class="grow">${inp("cfg/meals/"+m.id+"/n",m.n,"Nom",'style="width:100%"')}</div><input type="time" data-p="cfg/meals/${m.id}/t" value="${esc(m.t)}"><button class="x" data-act="delMeal" data-id="${m.id}">🗑</button></div>`).join("")}<button class="g" data-act="addMeal">+ Ajouter un repas</button></div>
  <div class="card"><h2>Lieux des repas</h2><div class="sub">Séparés par des virgules</div>${inp("cfg/places",C.places,"",'style="width:100%"')}</div>
-  <div class="card"><h2>Moi</h2>${meSel()}</div>
- <div class="card"><h2>Lien à partager</h2><div class="sub">Toute personne qui a ce lien peut participer, sans compte.</div><input readonly value="${esc(link)}" style="width:100%;margin:8px 0" onclick="this.select()"><button class="b" data-act="copy">Copier le lien</button></div>`}
+  `}
 
 function vSetup(){return`<div class="card"><h2>Première configuration (5 minutes, une seule fois)</h2><ol style="padding-left:20px;margin:0 0 10px"><li>Sur <b>console.firebase.google.com</b>, crée un projet gratuit (sans Analytics).</li><li>Menu « Build » → <b>Realtime Database</b> → « Créer une base », choisis l’Europe.</li><li>Onglet <b>Règles</b> : remplace par <code>{"rules":{".read":true,".write":true}}</code> puis « Publier ».</li><li>Copie l’adresse affichée en haut de l’onglet Données (https://….firebasedatabase.app) et colle-la ici :</li></ol><input id="dbu" placeholder="https://xxxx-default-rtdb.europe-west1.firebasedatabase.app" style="width:100%;margin-bottom:8px"><button class="b" data-act="setup">Valider</button><div class="sub" style="margin-top:8px">Tu obtiendras ensuite un lien à envoyer aux 9 autres.</div></div>`}
 
