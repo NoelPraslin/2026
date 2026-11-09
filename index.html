@@ -17,7 +17,7 @@ h1{font-size:22px;margin:0}h2{font-size:16px;margin:0 0 8px}.sub{color:var(--mut
 .strip b{display:block;font-size:17px}.strip small{display:block;color:var(--mut);font-size:11px;text-transform:capitalize}
 .strip .on{background:var(--acc);border-color:var(--acc);color:var(--on)}.strip .on small{color:var(--on)}
 input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 9px;min-width:0;max-width:100%}
-@media(pointer:coarse){input,select,textarea{font-size:16px}}
+@media(pointer:coarse){input,select,textarea{font-size:16px;min-height:38px}.g,.b{min-height:42px}.x{min-width:40px;min-height:40px}input[type=checkbox]{width:26px;height:26px}}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);border-color:var(--acc)}
 input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);flex:none}
 .b{font:inherit;font-size:15px;border:0;border-radius:8px;padding:8px 14px;background:var(--acc);color:var(--on);cursor:pointer}
@@ -31,7 +31,8 @@ input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);flex:none}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1 1 110px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:var(--acc2);color:var(--acc);border-radius:99px;padding:3px 10px;font-size:14px}.chip small{color:var(--mut);margin-left:4px}
-.chip.t{cursor:pointer;opacity:.5}.chip.t.on{opacity:1;outline:2px solid var(--acc)}
+.chip.t{cursor:pointer;opacity:.55;padding:6px 12px;user-select:none}.chip.t.on{opacity:1;background:var(--acc);color:var(--on)}
+#pedit{scroll-margin-top:10px}
 .meal{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}.meal:first-of-type{border-top:0}
 .meal .t{width:46px;color:var(--mut);font-size:13px}.meal .n{flex:1}.meal .c{font-size:13px;color:var(--mut);white-space:nowrap}
 .empty{color:var(--mut);font-style:italic}
@@ -67,7 +68,7 @@ const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice
 const DEF={title:"Notre semaine",place:"",start:iso(new Date()),days:7,places:"Maison, Terrasse, Restaurant, Pique-nique",cats:"Fruits & légumes, Viandes & poissons, Frais, Épicerie, Boissons, Autre",
  meals:{m1:{n:"Petit-déj",t:"08:30"},m2:{n:"Déjeuner",t:"12:30"},m3:{n:"Goûter",t:"16:30"},m4:{n:"Apéro",t:"19:00"},m5:{n:"Dîner",t:"20:30"}}};
 let D={},Q=[],C=DEF,base="",fl=0;
-const S={tab:"home",day:0,me:"",sub:"list",mode:"idea",sel:"",fp:null,tool:"pres",o:{},meS:""};
+const S={tab:"home",day:0,me:"",sub:"list",mode:"idea",sel:"",fp:null,tool:"pres",o:{},meS:"",ex:{t:"",a:"",p:""},fx:null,sc:false,sv:null,ss:true};
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
 try{D=JSON.parse(ls("D")||"{}");Q=JSON.parse(ls("Q")||"[]")}catch(e){}S.me=ls("me")||"";S.meS=ls("meS")||"";
 const L=o=>Object.entries(o||{}).map(([id,v])=>Object.assign({id},v));
@@ -109,6 +110,7 @@ const placeOpts=v=>`<option value="">📍 Lieu…</option>`+C.places.split(",").
 const STOP=new Set(["de","du","des","d","la","le","les","l","un","une","au","aux","en","et"]);
 const nkey=s=>String(s||"").toLowerCase().replace(/œ/g,"oe").replace(/æ/g,"ae").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\([^)]*\)/g," ").replace(/[^a-z0-9]+/g," ").trim().split(" ").filter(w=>w&&!STOP.has(w)).map(w=>w.length>3&&/[sx]$/.test(w)?w.slice(0,-1):w).sort().join(" ");
 const nk0=nkey;
+const fpDef=()=>Object.fromEntries(PL().map(p=>[p.id,ad(p)]));
 const sIds=i=>i.ideas?Object.keys(i.ideas):(i.idea?[i.idea]:[]);
 const sRec=i=>sIds(i).filter(r=>(D.ideas||{})[r]);
 const sQty=(i,r)=>r&&i.ideas?(i.ideas[r]||""):(i.qty||"");
@@ -160,7 +162,7 @@ function vPeople(){
  g+=`<div class="gn" style="cursor:default">Total</div>`;for(let d=0;d<n;d++)g+=`<div><b>${cnt(ps.filter(p=>cov(p,d)>0))}</b></div>`;g+=`<div></div></div></div>`;
  const p=P(S.sel),opts=v=>Array.from({length:n},(_,i)=>`<option value="${i}" ${i===v?"selected":""}>${esc(dl(i,{weekday:"short",day:"numeric",month:"short"}))}</option>`).join("");
  const ab=p?L(p.abs).map(x=>{const b=`people/${S.sel}/abs/${x.id}/`;return`<div class="row" style="margin-top:6px"><span class="sub">🚫 Du</span><select data-p="${b}d1" data-num="1">${opts(x.d1||0)}</select><input type="time" data-p="${b}t1" value="${esc(x.t1||"09:00")}"><span class="sub">au</span><select data-p="${b}d2" data-num="1">${opts(x.d2||0)}</select><input type="time" data-p="${b}t2" value="${esc(x.t2||"18:00")}"><button class="x" data-act="delAbs" data-id="${x.id}">🗑</button></div>`}).join(""):"";
- const ed=p?`<div class="card"><div class="row"><div class="grow">${inp("people/"+S.sel+"/n",p.n,"Prénom",'style="width:100%"')}</div><button class="x" data-act="delPerson">🗑</button></div><div class="row"><div class="grow"><label class="f">Nombre d’adultes</label><input type="number" min="1" max="20" data-p="people/${S.sel}/ad" data-num="1" value="${ad(p)}"></div><div class="grow"><label class="f">Couchage</label><select data-p="people/${S.sel}/room" style="width:100%"><option value="">—</option>${L(D.rooms).map(r=>`<option value="${r.id}" ${p.room===r.id?"selected":""}>${esc(r.n)}</option>`).join("")}</select></div></div><div class="row"><div class="grow"><label class="f">Arrivée</label><select data-p="people/${S.sel}/arr" data-num="1">${opts(p.arr||0)}</select> <input type="time" data-p="people/${S.sel}/arrT" value="${esc(p.arrT||"14:00")}"></div><div class="grow"><label class="f">Départ</label><select data-p="people/${S.sel}/dep" data-num="1">${opts(p.dep==null?n-1:p.dep)}</select> <input type="time" data-p="people/${S.sel}/depT" value="${esc(p.depT||"16:00")}"></div></div><label class="f">Absences pendant le séjour</label>${ab||'<div class="empty">Aucune</div>'}<button class="g" style="margin-top:8px" data-act="addAbs">+ Absence</button></div>`:'<div class="sub">Touche un prénom pour régler précisément les horaires et les absences.</div>';
+ const ed=p?`<div class="card" id="pedit"><div class="row"><div class="grow">${inp("people/"+S.sel+"/n",p.n,"Prénom",'style="width:100%"')}</div><button class="x" data-act="selClose">✕</button><button class="x" data-act="delPerson">🗑</button></div><div class="row"><div class="grow"><label class="f">Nombre d’adultes</label><input type="number" min="1" max="20" data-p="people/${S.sel}/ad" data-num="1" value="${ad(p)}"></div><div class="grow"><label class="f">Couchage</label><select data-p="people/${S.sel}/room" style="width:100%"><option value="">—</option>${L(D.rooms).map(r=>`<option value="${r.id}" ${p.room===r.id?"selected":""}>${esc(r.n)}</option>`).join("")}</select></div></div><div class="row"><div class="grow"><label class="f">Arrivée</label><select data-p="people/${S.sel}/arr" data-num="1">${opts(p.arr||0)}</select> <input type="time" data-p="people/${S.sel}/arrT" value="${esc(p.arrT||"14:00")}"></div><div class="grow"><label class="f">Départ</label><select data-p="people/${S.sel}/dep" data-num="1">${opts(p.dep==null?n-1:p.dep)}</select> <input type="time" data-p="people/${S.sel}/depT" value="${esc(p.depT||"16:00")}"></div></div><label class="f">Absences pendant le séjour</label>${ab||'<div class="empty">Aucune</div>'}<button class="g" style="margin-top:8px" data-act="addAbs">+ Absence</button></div>`:'<div class="sub">Touche un prénom pour régler précisément les horaires et les absences.</div>';
  return`<div class="row" style="margin-bottom:10px"><div class="grow sub">${cnt(ps)} personne(s)</div><button class="b" data-act="addPerson">+ Ajouter</button></div><div class="row" style="margin-bottom:8px"><span class="sub">Toucher une case :</span><button class="g ${S.tool!=="abs"?"on":""}" data-act="tool" data-t="pres">✏️ Arrivée / départ</button><button class="g ${S.tool==="abs"?"on":""}" data-act="tool" data-t="abs">🚫 Absence</button></div>`+g+ed+vRooms()}
 function vMenus(){
  const d=S.day,rid=L(D.ideas).sort((a,b)=>Object.keys(b.v||{}).length-Object.keys(a.v||{}).length);
@@ -176,20 +178,20 @@ function vIdeas(){
  const pn=op?`<div class="pn" style="border-top:1px solid var(--line);margin-top:8px">${ing.map(g=>`<div class="item"><span class="nm">${esc(g.n)}${g.q?` <small class="sub">× ${esc(g.q)}</small>`:""}${inList(g,i.id)?` <small class="sub">· ✓ dans la liste</small>`:""}</span><button class="x" data-act="delIng" data-id="${i.id}" data-ing="${g.id}">🗑</button></div>`).join("")}<div class="row" style="margin-top:6px"><div class="grow"><input id="in${i.id}" placeholder="Ingrédient" style="width:100%"></div><input id="iq${i.id}" placeholder="Qté" style="width:64px"><button class="g" data-act="addIng" data-id="${i.id}">+</button></div><button class="lk0" data-act="tog" data-k="p${i.id}">📋 Coller une liste d’ingrédients</button>${S.o["p"+i.id]?`<textarea id="pt${i.id}" rows="4" placeholder="Colle la liste d’ingrédients, ou tout le texte de la page de la recette" style="width:100%;margin-top:6px"></textarea><button class="g" style="margin-top:6px" data-act="pasteIng" data-id="${i.id}">Ajouter ces ingrédients</button>`:""}${ing.length?`<button class="b" style="margin-top:8px" data-act="toCart" data-id="${i.id}">🛒 Ajouter aux courses</button>`:""}<label class="f">Lien de la recette</label>${inp("ideas/"+i.id+"/link",i.link,"https://…",'style="width:100%"')}</div>`:"";
  return`<div class="card"><div class="row"><div class="grow" data-act="tog" data-k="i${i.id}" style="cursor:pointer"><b>${esc(i.title)}</b> <span class="sub">${op?"▴":"▾"}</span><div class="sub">${ing.length} ingrédient(s)${P(i.by)?" · "+esc(P(i.by).n):""}${u?` · <a class="lnk" href="${esc(u)}" target="_blank" rel="noopener noreferrer">🔗 Voir la recette</a>`:""}</div></div><button class="g vote ${on?"on":""}" data-act="vote" data-id="${i.id}">👍 ${n}</button><button class="x" data-act="delIdea" data-id="${i.id}">🗑</button></div>${pn}</div>`}).join("")||'<div class="card empty">Aucune recette pour l’instant.</div>')}
 function budget(){const paid={},owe={};let tot=0;const ids=PL().map(p=>p.id);ids.forEach(i=>paid[i]=owe[i]=0);
- L(D.shop).filter(i=>i.exp&&+i.price>0&&paid[i.payer]!=null).forEach(i=>{const pr=+i.price;tot+=pr;let ps=Object.keys(i.parts||{}).filter(x=>paid[x]!=null);if(!ps.length)ps=ids;const W=ps.reduce((s,x)=>s+ad(P(x)),0);paid[i.payer]+=pr;ps.forEach(x=>owe[x]+=pr*ad(P(x))/W)});
+ L(D.shop).filter(i=>i.exp&&+i.price>0&&paid[i.payer]!=null).forEach(i=>{const pr=+i.price;tot+=pr;let ps=Object.keys(i.parts||{}).filter(x=>paid[x]!=null);if(!ps.length)ps=ids;const wt=x=>i.w&&i.parts&&i.parts[x]!=null?+i.parts[x]:ad(P(x)),W=ps.reduce((s,x)=>s+wt(x),0);if(!(W>0)){tot-=pr;return}paid[i.payer]+=pr;ps.forEach(x=>owe[x]+=pr*wt(x)/W)});
  const bal=ids.map(id=>({id,b:paid[id]-owe[id]})),deb=bal.filter(x=>x.b<-.005).map(x=>({...x})).sort((a,b)=>a.b-b.b),cre=bal.filter(x=>x.b>.005).map(x=>({...x})).sort((a,b)=>b.b-a.b),tr=[];
  while(deb.length&&cre.length){const a=deb[0],c=cre[0],m=Math.min(-a.b,c.b);tr.push([a.id,c.id,m]);a.b+=m;c.b-=m;if(a.b>-.005)deb.shift();if(c.b<.005)cre.shift()}
  return{paid,owe,tot,tr}}
 
 function vShop(){
  const tabs=`<div class="row" style="margin-bottom:10px"><button class="g ${S.sub==="list"?"on":""}" data-act="sub" data-t="list">🛒 Liste</button><button class="g ${S.sub==="bud"?"on":""}" data-act="sub" data-t="bud">💶 Budget</button></div>`;
- if(S.sub==="bud"){const B=budget(),ex=L(D.shop).filter(i=>i.exp),fp=S.fp||Object.fromEntries(PL().map(p=>[p.id,1]));
-  const pay=`<option value="">Payé par…</option>`+PL().map(p=>`<option value="${p.id}">${esc(p.n)}</option>`).join("");
+ if(S.sub==="bud"){const B=budget(),ex=L(D.shop).filter(i=>i.exp),fp=S.fp||fpDef();
+  const pay=`<option value="">Payé par…</option>`+PL().map(p=>`<option value="${p.id}" ${p.id===(S.ex.p||S.me)?"selected":""}>${esc(p.n)}</option>`).join("");
   return tabs+`<div class="card"><h2>Total : ${money(B.tot)}</h2><div class="sub">${cnt(PL())?money(B.tot/cnt(PL()))+" par adulte en moyenne":""}</div>
   <table><tr><th></th><th>Payé</th><th>Part</th><th>Solde</th></tr>${PL().map(p=>{const s=B.paid[p.id]-B.owe[p.id];return`<tr><td>${esc(p.n)}</td><td>${money(B.paid[p.id])}</td><td>${money(B.owe[p.id])}</td><td class="${s>=.005?"good":s<=-.005?"bad":""}"><b>${money(s)}</b></td></tr>`}).join("")}</table></div>
   <div class="card"><h2>Qui rembourse qui</h2>${B.tr.map(([a,b,m])=>`<div>${esc(P(a).n)} → ${esc(P(b).n)} : <b>${money(m)}</b></div>`).join("")||'<span class="empty">Tout est équilibré</span>'}</div>
-  <div class="card"><h2>Nouvelle dépense</h2><div class="row"><div class="grow"><input id="eT" placeholder="ex. Courses Leclerc, essence…" style="width:100%"></div><input id="eA" type="number" step="0.01" placeholder="€" style="width:90px"><select id="eP">${pay}</select></div><label class="f">Partagée entre</label><div class="chips">${PL().map(p=>`<span class="chip t ${fp[p.id]?"on":""}" data-act="fp" data-id="${p.id}">${esc(p.n)}</span>`).join("")}</div><button class="b" style="margin-top:10px" data-act="addExp">Ajouter</button></div>
-  <div class="card"><h2>Dépenses</h2>${ex.map(i=>`<div class="item"><span class="nm">${esc(i.name)}<div class="sub">${P(i.payer)?"payé par "+esc(P(i.payer).n):"sans payeur"} · ${cnt(Object.keys(i.parts||{}).length?Object.keys(i.parts).map(P).filter(Boolean):PL())} pers.</div></div><b>${money(+i.price)}</b><button class="x" data-act="delItem" data-id="${i.id}">🗑</button></div>`).join("")||'<span class="empty">Aucune dépense</span>'}</div>`}
+  <div class="card"><h2>Nouvelle dépense</h2><div class="row"><div class="grow"><input id="eT" value="${esc(S.ex.t)}" placeholder="Libellé (ex. essence)" style="width:100%"></div><input id="eA" type="number" inputmode="decimal" step="0.01" value="${esc(S.ex.a)}" placeholder="€" style="width:90px"><select id="eP">${pay}</select></div><label class="f">Partagée entre <button class="lk0" style="display:inline;margin:0 0 0 6px" data-act="fpAll">(tout le monde)</button></label><div class="chips">${PL().map(p=>{const w=fp[p.id]||0;return`<span class="chip t ${w?"on":""}" data-act="fp" data-id="${p.id}">${esc(p.n)}${ad(p)>1?` ×${w}`:""}</span>`}).join("")}</div><div class="sub" style="margin-top:6px">Touche un nom pour l’exclure. Pour un couple ou un groupe, chaque touche retire une part.</div><button class="b" style="margin-top:10px;width:100%" data-act="addExp">Ajouter la dépense</button></div>
+  <div class="card"><h2>Dépenses</h2>${ex.map(i=>`<div class="item"><span class="nm">${esc(i.name)}<div class="sub">${P(i.payer)?"payé par "+esc(P(i.payer).n):"sans payeur"} · ${i.w?Object.values(i.parts||{}).reduce((s,v)=>s+(+v||0),0):cnt(Object.keys(i.parts||{}).length?Object.keys(i.parts).map(P).filter(Boolean):PL())} pers.</div></div><b>${money(+i.price)}</b><button class="x" data-act="delItem" data-id="${i.id}">🗑</button></div>`).join("")||'<span class="empty">Aucune dépense</span>'}</div>`}
  const its=L(D.shop).filter(i=>!i.exp),ideas=L(D.ideas);
  const gr={};its.forEach(i=>{const rs=sRec(i);(rs.length?rs:[""]).forEach(k=>(gr[k]=gr[k]||[]).push(i))});
  const keys=[...ideas.map(i=>i.id),""].filter(k=>gr[k]);
@@ -229,51 +231,58 @@ function render(){
  $("#app").innerHTML=base?V[S.tab]():vSetup();
  if($(".gw"))$(".gw").scrollLeft=sx;
  if(key){const el=key.p?document.querySelector(`[data-p="${key.k}"]`):document.getElementById(key.k);if(el){if(el.type!=="checkbox")el.value=key.v;el.focus();try{el.setSelectionRange(key.s,key.e)}catch(x){}}}
+ const q=s=>s?document.querySelector(s[0]==="#"?s:`[data-p="${s}"]`):null;
+ if(S.fx){const el=q(S.fx),sc=S.sc;S.fx=null;S.sc=false;if(el){el.focus({preventScroll:!sc});if(sc){el.scrollIntoView({block:"center",behavior:"smooth"});try{el.select()}catch(x){}}}}
+ if(S.sv){const el=q(S.sv);S.sv=null;if(el)el.scrollIntoView({block:"start",behavior:"smooth"})}
+ if(S.ss){S.ss=false;const on=$(".strip .on");if(on)on.scrollIntoView({inline:"center",block:"nearest"})}
 }
 const val=id=>document.getElementById(id).value.trim();
 document.addEventListener("click",e=>{if(e.target.closest("a"))return;const b=e.target.closest("[data-act]");if(!b||b.tagName==="SELECT")return;const a=b.dataset.act,id=b.dataset.id;
- if(a==="tab"){S.tab=b.dataset.t;render();scrollTo(0,0)}
- else if(a==="day"){S.day=+b.dataset.i;render()}
+ if(a==="tab"){S.tab=b.dataset.t;S.ss=true;render();scrollTo(0,0)}
+ else if(a==="day"){S.day=+b.dataset.i;S.ss=true;render()}
  else if(a==="goMenu"){S.tab="menus";render()}
  else if(a==="sub"){S.sub=b.dataset.t;render()}
  else if(a==="mode"){S.mode=b.dataset.t;render()}
- else if(a==="sel"){S.sel=id;render()}
+ else if(a==="sel"){S.sel=id;S.sv="#pedit";render()}
+ else if(a==="selClose"){S.sel="";render()}
  else if(a==="tool"){S.tool=b.dataset.t;render()}
  else if(a==="cell"){const p=P(id),d=+b.dataset.d,x=p.arr||0,z=p.dep==null?N()-1:p.dep;S.sel=id;
   if(S.tool==="abs"){if(d<x||d>z){toast("Hors des dates de présence");return}const ex=L(p.abs).find(q=>q.d1===d&&q.d2===d&&q.t1==="00:00"&&q.t2==="23:59");if(ex)setp("people/"+id+"/abs/"+ex.id,null);else setp("people/"+id+"/abs/"+uid(),{d1:d,t1:"00:00",d2:d,t2:"23:59"})}
   else if(d<x)setp("people/"+id+"/arr",d);else if(d>z)setp("people/"+id+"/dep",d);else if(d-x<=z-d)setp("people/"+id+"/arr",d);else setp("people/"+id+"/dep",d)}
  else if(a==="addAbs"){const d=Math.min(S.day,N()-1);setp("people/"+S.sel+"/abs/"+uid(),{d1:d,t1:"09:00",d2:d,t2:"18:00"})}
  else if(a==="delAbs")setp("people/"+S.sel+"/abs/"+id,null);
- else if(a==="addIng"){const t=val("in"+id);if(!t)return;if(L(D.ideas[id].ing).some(g=>nkey(g.n)===nkey(t))){toast("Déjà dans la recette");return}setp("ideas/"+id+"/ing/"+uid(),{n:t,q:val("iq"+id)})}
+ else if(a==="addIng"){const t=val("in"+id);if(!t)return;if(L(D.ideas[id].ing).some(g=>nkey(g.n)===nkey(t))){toast("Déjà dans la recette");return}const q=val("iq"+id);$("#in"+id).value="";$("#iq"+id).value="";S.fx="#in"+id;setp("ideas/"+id+"/ing/"+uid(),{n:t,q})}
  else if(a==="delIng")setp("ideas/"+id+"/ing/"+b.dataset.ing,null);
- else if(a==="toCart"){let n=0,m=0;L(D.ideas[id].ing).forEach(g=>{const r=addToList(g.n,g.q,id);if(r==="new")n++;else if(r==="merged")m++});toast(n+m?n+" ajouté(s)"+(m?", "+m+" fusionné(s) avec d’autres recettes":""):"Déjà tous dans la liste")}
+ else if(a==="toCart"){S.o["s"+id]=true;let n=0,m=0;L(D.ideas[id].ing).forEach(g=>{const r=addToList(g.n,g.q,id);if(r==="new")n++;else if(r==="merged")m++});toast(n+m?n+" ajouté(s)"+(m?", "+m+" fusionné(s) avec d’autres recettes":""):"Déjà tous dans la liste")}
  else if(a==="mergeDups"){const gs=dupGroups();gs.forEach(g=>{const b=g[0],ids={};g.forEach(i=>{if(i.ideas)Object.assign(ids,i.ideas);else if(i.idea)ids[i.idea]=i.qty||""});if(Object.keys(ids).length)setp("shop/"+b.id+"/ideas",ids);else if(!b.qty){const q=g.map(i=>i.qty).find(Boolean);if(q)setp("shop/"+b.id+"/qty",q)}setp("shop/"+b.id+"/done",g.every(i=>i.done)?true:null);g.slice(1).forEach(i=>setp("shop/"+i.id,null))});toast(gs.length+" doublon(s) fusionné(s)")}
- else if(a==="addPerson"){const i=uid();S.sel=i;setp("people/"+i,{n:"Prénom",arr:0,arrT:"14:00",dep:N()-1,depT:"16:00",note:"",hue:Math.floor(Math.random()*360)})}
+ else if(a==="addPerson"){const i=uid();S.sel=i;S.fx="people/"+i+"/n";S.sc=true;setp("people/"+i,{n:"Prénom",arr:0,arrT:"14:00",dep:N()-1,depT:"16:00",note:"",hue:Math.floor(Math.random()*360)})}
  else if(a==="delPerson"){if(confirm("Supprimer cette personne ?")){const i=S.sel;S.sel="";setp("people/"+i,null)}}
  else if(a==="tog"){S.o[b.dataset.k]=!S.o[b.dataset.k];render()}
  else if(a==="pasteIng"){const t=(document.getElementById("pt"+id)||{}).value||"";if(ingList(t).length>40){toast("Trop de texte : sélectionne seulement la liste");return}S.o["p"+id]=false;addIngs(id,ingList(t))}
  else if(a==="delMI"){const k=b.dataset.k,x=(D.menu||{})[k]||{};if(x.idea===id)setp("menu/"+k+"/idea",null);setp("menu/"+k+"/ideas/"+id,null)}
- else if(a==="addIdea"){const t=val("addIdea");if(!t)return;const l=(($("#addIdeaL")||{}).value||"").trim();S.o.addL=false;setp("ideas/"+uid(),{title:t,type:"Repas",by:S.me,link:l,v:S.me?{[S.me]:1}:{}})}
- else if(a==="addRoom")setp("rooms/"+uid(),{n:"Chambre",cap:2});
+ else if(a==="addIdea"){const t=val("addIdea");if(!t)return;const l=(($("#addIdeaL")||{}).value||"").trim();$("#addIdea").value="";S.fx="#addIdea";S.o.addL=false;setp("ideas/"+uid(),{title:t,type:"Repas",by:S.me,link:l,v:S.me?{[S.me]:1}:{}})}
+ else if(a==="addRoom"){const i=uid();S.fx="rooms/"+i+"/n";S.sc=true;setp("rooms/"+i,{n:"Chambre",cap:2})}
  else if(a==="delRoom"){if(confirm("Supprimer cette chambre ?")){L(D.people).filter(p=>p.room===id).forEach(p=>setp("people/"+p.id+"/room",null));setp("rooms/"+id,null)}}
  else if(a==="draw"){const ids=L(D.santaP).map(p=>p.id);if(ids.length<2){toast("Il faut au moins 2 participants");return}if(Object.keys(D.santaD||{}).length&&!confirm("Refaire le tirage ? L’ancien sera remplacé."))return;let r;do{r=[...ids].sort(()=>Math.random()-.5)}while(r.some((x,i)=>x===ids[i]));setp("santaD",Object.fromEntries(ids.map((x,i)=>[x,r[i]])))}
  else if(a==="clearSanta"){if(confirm("Effacer le tirage ?"))setp("santaD",null)}
- else if(a==="addSP"){const t=val("addSP");if(!t)return;setp("santaP/"+uid(),{n:t})}
+ else if(a==="addSP"){const t=val("addSP");if(!t)return;$("#addSP").value="";S.fx="#addSP";setp("santaP/"+uid(),{n:t})}
  else if(a==="delSP"){Object.entries(D.santaD||{}).forEach(([g,r])=>{if(g===id||r===id)setp("santaD/"+g,null)});setp("santaP/"+id,null)}
  else if(a==="impSP"){const have=L(D.santaP).map(x=>x.n.toLowerCase());let k=0;PL().forEach(p=>String(p.n||"").split(/\s*(?:&|\+|,|\bet\b)\s*/).map(s=>s.trim()).filter(Boolean).forEach(nm=>{if(nm!=="Prénom"&&!have.includes(nm.toLowerCase())){have.push(nm.toLowerCase());setp("santaP/"+uid(),{n:nm});k++}}));toast(k+" participant(s) ajouté(s)")}
  else if(a==="vote"){if(!S.me){toast("Choisis d’abord qui tu es");return}setp("ideas/"+id+"/v/"+S.me,((D.ideas[id].v||{})[S.me])?null:1)}
  else if(a==="delIdea"){if(confirm("Supprimer cette recette et ses ingrédients de la liste de courses ?")){L(D.shop).filter(i=>!i.exp&&sIds(i).includes(id)).forEach(i=>{if(i.ideas&&sIds(i).length>1)setp("shop/"+i.id+"/ideas/"+id,null);else setp("shop/"+i.id,null)});setp("ideas/"+id,null)}}
- else if(a==="addItem"){const t=val("addItem");if(!t)return;const r=addToList(t,val("addQty"),val("addFor"));if(r==="dup")toast("Déjà dans la liste");else if(r==="merged")toast("Fusionné avec un article existant")}
+ else if(a==="addItem"){const t=val("addItem"),q=val("addQty"),rid=val("addFor");if(!t)return;$("#addItem").value="";$("#addQty").value="";if(rid)S.o["s"+rid]=true;else S.o.sx=false;S.fx="#addItem";const r=addToList(t,q,rid);if(r==="dup"){S.fx=null;$("#addItem").value=t;$("#addQty").value=q;toast("Déjà dans la liste")}else toast(r==="merged"?"Fusionné avec un article existant":"Ajouté")}
  else if(a==="delItem")setp("shop/"+id,null);
  else if(a==="clearDone")L(D.shop).filter(i=>i.done&&!i.exp).forEach(i=>setp("shop/"+i.id,null));
- else if(a==="fp"){S.fp=S.fp||Object.fromEntries(PL().map(p=>[p.id,1]));if(S.fp[id])delete S.fp[id];else S.fp[id]=1;render()}
- else if(a==="addExp"){const t=val("eT"),m=+val("eA"),p=val("eP");if(!t||!(m>0)||!p){toast("Titre, montant et payeur sont requis");return}const f=S.fp||Object.fromEntries(PL().map(p=>[p.id,1]));setp("shop/"+uid(),{name:t,price:m,payer:p,exp:1,done:true,parts:f});S.fp=null}
+ else if(a==="fp"){S.fp=S.fp||fpDef();const w=S.fp[id]||0;S.fp[id]=w>0?w-1:ad(P(id));render()}
+ else if(a==="fpAll"){S.fp=null;render()}
+ else if(a==="addExp"){const t=val("eT"),m=+val("eA").replace(",","."),p=val("eP");if(!t||!(m>0)||!p){toast("Libellé, montant et payeur sont requis");return}const f={};Object.entries(S.fp||fpDef()).forEach(([k,v])=>{if(v>0)f[k]=v});if(!Object.keys(f).length){toast("Choisis au moins une personne");return}S.fp=null;S.ex={t:"",a:"",p:S.me};setp("shop/"+uid(),{name:t,price:m,payer:p,exp:1,done:true,w:1,parts:f});toast("Dépense ajoutée")}
  else if(a==="addMeal")setp("cfg/meals/m"+uid(),{n:"Nouveau repas",t:"12:00"});
  else if(a==="delMeal"){if(confirm("Supprimer ce repas ?"))setp("cfg/meals/"+id,null)}
  else if(a==="copy"){navigator.clipboard&&navigator.clipboard.writeText(location.href.split("#")[0]+"#db="+encodeURIComponent(base)).then(()=>toast("Lien copié"))}
  else if(a==="setup"){const u=val("dbu").replace(/\.json$/,"").replace(/\/+$/,"");if(!/^https:\/\/.+/.test(u)){toast("Adresse invalide");return}base=u;ls("db",u);history.replaceState(null,"","#db="+encodeURIComponent(u));boot()}
 });
-document.addEventListener("change",e=>{const el=e.target;
+document.addEventListener("input",e=>{const t=e.target;if(t.id==="eT")S.ex.t=t.value;else if(t.id==="eA")S.ex.a=t.value});
+document.addEventListener("change",e=>{const el=e.target;if(el.id==="eP"){S.ex.p=el.value;return}
  if(el.dataset.act==="me"){S.me=el.value;ls("me",S.me);render();return}
  if(el.dataset.act==="meS"){S.meS=el.value;ls("meS",S.meS);render();return}
  if(el.dataset.act==="addMI"){if(el.value)setp("menu/"+el.dataset.k+"/ideas/"+el.value,1);return}
